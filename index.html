@@ -1,0 +1,1557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ella's NurseReady Study Hub</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --teal: #1D9E75;
+    --teal-light: #E1F5EE;
+    --teal-mid: #0F6E56;
+    --teal-dark: #085041;
+    --blue: #378ADD;
+    --blue-light: #E6F1FB;
+    --purple: #7F77DD;
+    --purple-light: #EEEDFE;
+    --amber: #EF9F27;
+    --amber-light: #FAEEDA;
+    --coral: #D85A30;
+    --coral-light: #FAECE7;
+    --bg: #F7F5F0;
+    --surface: #FFFFFF;
+    --surface2: #F0EDE8;
+    --border: rgba(0,0,0,0.08);
+    --border2: rgba(0,0,0,0.14);
+    --text: #1A1A18;
+    --text2: #5A5A54;
+    --text3: #9A9A90;
+    --shadow: 0 2px 12px rgba(0,0,0,0.07);
+    --shadow-lg: 0 8px 32px rgba(0,0,0,0.10);
+    --radius: 12px;
+    --radius-sm: 8px;
+    --radius-pill: 100px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  /* ─── LAYOUT ─────────────────────────────────── */
+  .layout { display: flex; min-height: 100vh; }
+
+  /* ─── SIDEBAR ────────────────────────────────── */
+  .sidebar {
+    width: 240px;
+    flex-shrink: 0;
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    position: fixed;
+    top: 0; left: 0; bottom: 0;
+    z-index: 100;
+    overflow-y: auto;
+  }
+
+  .sidebar-brand {
+    padding: 1.5rem 1.25rem 1rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .sidebar-brand h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--text);
+    line-height: 1.3;
+  }
+  .sidebar-brand p {
+    font-size: 11px;
+    color: var(--text3);
+    margin-top: 3px;
+    font-weight: 300;
+  }
+  .admit-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    margin-top: 8px;
+    font-size: 10px;
+    padding: 3px 8px;
+    border-radius: var(--radius-pill);
+    background: var(--teal-light);
+    color: var(--teal-mid);
+    font-weight: 500;
+  }
+
+  .sidebar-section-label {
+    font-size: 10px;
+    font-weight: 500;
+    color: var(--text3);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 1rem 1.25rem 0.4rem;
+  }
+
+  .nav-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 1.25rem;
+    font-size: 13px;
+    color: var(--text2);
+    cursor: pointer;
+    border-radius: 0;
+    transition: all 0.15s;
+    border-left: 3px solid transparent;
+    text-decoration: none;
+  }
+  .nav-link:hover { background: var(--bg); color: var(--text); }
+  .nav-link.active {
+    background: var(--teal-light);
+    color: var(--teal-mid);
+    border-left-color: var(--teal);
+    font-weight: 500;
+  }
+  .nav-icon { font-size: 15px; width: 20px; text-align: center; }
+
+  .course-list { padding: 0.5rem 0.75rem; }
+  .course-chip {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 7px 10px;
+    border-radius: var(--radius-sm);
+    margin-bottom: 4px;
+    cursor: pointer;
+    transition: background 0.15s;
+    font-size: 12px;
+  }
+  .course-chip:hover { background: var(--bg); }
+  .course-chip.active { background: var(--teal-light); }
+  .course-chip-name { font-weight: 500; color: var(--text); }
+  .course-chip-sub { font-size: 10px; color: var(--text3); }
+  .course-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+
+  .sidebar-footer {
+    margin-top: auto;
+    padding: 1rem 1.25rem;
+    border-top: 1px solid var(--border);
+    font-size: 11px;
+    color: var(--text3);
+  }
+
+  /* ─── MAIN CONTENT ───────────────────────────── */
+  .main { margin-left: 240px; flex: 1; padding: 2rem; min-height: 100vh; }
+
+  .page { display: none; animation: fadeIn 0.2s ease; }
+  .page.active { display: block; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+  .page-header { margin-bottom: 1.75rem; }
+  .page-header h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 26px;
+    font-weight: 500;
+    color: var(--text);
+  }
+  .page-header p { font-size: 13px; color: var(--text2); margin-top: 4px; }
+
+  /* ─── CARDS ──────────────────────────────────── */
+  .card {
+    background: var(--surface);
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    padding: 1.25rem;
+    box-shadow: var(--shadow);
+  }
+  .card-title {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text3);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 6px;
+  }
+  .card-big {
+    font-family: 'Playfair Display', serif;
+    font-size: 36px;
+    font-weight: 500;
+    color: var(--text);
+    line-height: 1;
+  }
+  .card-sub { font-size: 12px; color: var(--text3); margin-top: 4px; }
+
+  .grid4 { display: grid; grid-template-columns: repeat(4,1fr); gap: 14px; margin-bottom: 1.5rem; }
+  .grid3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; margin-bottom: 1.5rem; }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 1.5rem; }
+
+  .panel {
+    background: var(--surface);
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    padding: 1.5rem;
+    margin-bottom: 1.25rem;
+    box-shadow: var(--shadow);
+  }
+  .panel-title {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--text);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  /* ─── BADGES / TAGS ──────────────────────────── */
+  .badge {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 500;
+    padding: 2px 8px;
+    border-radius: var(--radius-pill);
+  }
+  .badge-teal { background: var(--teal-light); color: var(--teal-mid); }
+  .badge-blue { background: var(--blue-light); color: #185FA5; }
+  .badge-purple { background: var(--purple-light); color: #534AB7; }
+  .badge-amber { background: var(--amber-light); color: #854F0B; }
+  .badge-coral { background: var(--coral-light); color: #993C1D; }
+
+  /* ─── PROGRESS BARS ──────────────────────────── */
+  .prog-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+  .prog-label { font-size: 12px; color: var(--text2); width: 140px; flex-shrink: 0; }
+  .prog-track { flex: 1; height: 7px; background: var(--surface2); border-radius: 4px; overflow: hidden; }
+  .prog-fill { height: 100%; border-radius: 4px; transition: width 0.6s ease; }
+  .prog-pct { font-size: 11px; color: var(--text3); width: 30px; text-align: right; flex-shrink: 0; }
+
+  /* ─── FLASHCARD ──────────────────────────────── */
+  .fc-scene { perspective: 1000px; height: 220px; margin-bottom: 1rem; cursor: pointer; }
+  .fc-card {
+    width: 100%; height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.5s ease;
+    border-radius: var(--radius);
+  }
+  .fc-card.flipped { transform: rotateY(180deg); }
+  .fc-face {
+    position: absolute; inset: 0;
+    backface-visibility: hidden;
+    border-radius: var(--radius);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow);
+  }
+  .fc-front { background: var(--surface); }
+  .fc-back {
+    background: var(--teal-light);
+    transform: rotateY(180deg);
+    border-color: rgba(29,158,117,0.3);
+  }
+  .fc-label-top {
+    position: absolute;
+    top: 14px; left: 14px;
+    font-size: 10px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text3);
+  }
+  .fc-back .fc-label-top { color: var(--teal-mid); }
+  .fc-main-text {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--text);
+    text-align: center;
+    line-height: 1.4;
+  }
+  .fc-back .fc-main-text { color: var(--teal-dark); font-size: 16px; font-weight: 400; font-family: 'DM Sans', sans-serif; }
+  .fc-hint { font-size: 11px; color: var(--text3); margin-top: 10px; }
+  .fc-back .fc-hint { color: var(--teal-mid); }
+
+  .fc-controls { display: flex; gap: 10px; justify-content: center; margin-bottom: 1rem; }
+  .fc-btn {
+    padding: 8px 20px;
+    border-radius: var(--radius-pill);
+    border: 1px solid var(--border2);
+    cursor: pointer;
+    font-size: 13px;
+    font-family: 'DM Sans', sans-serif;
+    background: var(--surface);
+    color: var(--text2);
+    transition: all 0.15s;
+  }
+  .fc-btn:hover { background: var(--surface2); }
+  .fc-btn.know { border-color: var(--teal); color: var(--teal-mid); }
+  .fc-btn.know:hover { background: var(--teal-light); }
+  .fc-btn.learn { border-color: var(--coral); color: var(--coral); }
+  .fc-btn.learn:hover { background: var(--coral-light); }
+
+  .fc-progress-wrap { margin-bottom: 1rem; }
+  .fc-counter { display: flex; justify-content: space-between; font-size: 12px; color: var(--text3); margin-bottom: 6px; }
+  .fc-bar { height: 4px; background: var(--surface2); border-radius: 2px; overflow: hidden; }
+  .fc-bar-fill { height: 100%; background: var(--teal); border-radius: 2px; transition: width 0.3s; }
+
+  /* ─── QUIZ ───────────────────────────────────── */
+  .quiz-q-num { font-size: 11px; color: var(--text3); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
+  .quiz-q-text { font-size: 16px; font-weight: 500; color: var(--text); margin-bottom: 1.25rem; line-height: 1.5; }
+  .quiz-options { display: flex; flex-direction: column; gap: 8px; }
+  .quiz-opt {
+    padding: 11px 15px;
+    border: 1px solid var(--border2);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    font-size: 13px;
+    background: var(--surface);
+    color: var(--text);
+    text-align: left;
+    transition: all 0.15s;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .quiz-opt:hover { border-color: var(--teal); background: var(--teal-light); color: var(--teal-mid); }
+  .quiz-opt.correct { background: var(--teal-light); border-color: var(--teal); color: var(--teal-dark); }
+  .quiz-opt.wrong { background: var(--coral-light); border-color: var(--coral); color: #993C1D; }
+
+  /* ─── FORM ELEMENTS ──────────────────────────── */
+  select, input[type="text"] {
+    border: 1px solid var(--border2);
+    border-radius: var(--radius-sm);
+    padding: 8px 12px;
+    font-size: 13px;
+    background: var(--surface);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    outline: none;
+    transition: border-color 0.15s;
+  }
+  select:focus, input[type="text"]:focus { border-color: var(--teal); }
+  textarea {
+    width: 100%;
+    border: 1px solid var(--border2);
+    border-radius: var(--radius-sm);
+    padding: 10px 12px;
+    font-size: 13px;
+    background: var(--surface);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    resize: vertical;
+    min-height: 90px;
+    line-height: 1.6;
+    outline: none;
+  }
+  textarea:focus { border-color: var(--teal); }
+
+  .btn-primary {
+    background: var(--teal);
+    color: white;
+    border: none;
+    border-radius: var(--radius-sm);
+    padding: 9px 18px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    transition: background 0.15s;
+  }
+  .btn-primary:hover { background: var(--teal-mid); }
+  .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  .btn-outline {
+    background: transparent;
+    color: var(--text2);
+    border: 1px solid var(--border2);
+    border-radius: var(--radius-sm);
+    padding: 9px 18px;
+    font-size: 13px;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    transition: all 0.15s;
+  }
+  .btn-outline:hover { background: var(--surface2); }
+
+  .form-row { display: flex; gap: 10px; flex-wrap: wrap; align-items: flex-end; }
+  .form-group { display: flex; flex-direction: column; gap: 4px; flex: 1; min-width: 140px; }
+  .form-label { font-size: 11px; color: var(--text3); font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; }
+
+  /* ─── LOADING / AI OUTPUT ────────────────────── */
+  .loading { display: none; align-items: center; gap: 8px; font-size: 13px; color: var(--text3); padding: 12px 0; }
+  .spinner { width: 16px; height: 16px; border: 2px solid var(--border2); border-top-color: var(--teal); border-radius: 50%; animation: spin 0.7s linear infinite; flex-shrink: 0; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .ai-output {
+    display: none;
+    background: var(--surface2);
+    border-radius: var(--radius-sm);
+    padding: 1rem 1.25rem;
+    margin-top: 1rem;
+    font-size: 13px;
+    line-height: 1.8;
+    color: var(--text);
+    white-space: pre-wrap;
+    border-left: 3px solid var(--teal);
+  }
+
+  /* ─── CHAPTER NAV ────────────────────────────── */
+  .ch-nav { display: flex; gap: 8px; margin-bottom: 1.25rem; flex-wrap: wrap; }
+  .ch-tab {
+    padding: 7px 14px;
+    border-radius: var(--radius-pill);
+    border: 1px solid var(--border2);
+    font-size: 13px;
+    cursor: pointer;
+    background: var(--surface);
+    color: var(--text2);
+    transition: all 0.15s;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .ch-tab:hover { background: var(--surface2); }
+  .ch-tab.active { background: var(--teal); color: white; border-color: var(--teal); }
+
+  /* ─── CONCEPT GRID ───────────────────────────── */
+  .concept-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 10px; }
+  .concept-card {
+    background: var(--bg);
+    border-radius: var(--radius-sm);
+    padding: 12px 14px;
+    border: 1px solid var(--border);
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+  .concept-card:hover { border-color: var(--teal); box-shadow: 0 2px 8px rgba(29,158,117,0.1); }
+  .concept-term { font-size: 13px; font-weight: 500; color: var(--text); margin-bottom: 4px; }
+  .concept-def { font-size: 12px; color: var(--text2); line-height: 1.5; }
+
+  /* ─── ION TABLE ──────────────────────────────── */
+  .ion-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .ion-table th {
+    background: var(--surface2);
+    padding: 8px 12px;
+    text-align: left;
+    font-weight: 500;
+    color: var(--text2);
+    border-bottom: 1px solid var(--border);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .ion-table td { padding: 8px 12px; border-bottom: 1px solid var(--border); color: var(--text); }
+  .ion-table tr:last-child td { border-bottom: none; }
+  .ion-table tr:hover td { background: var(--bg); }
+  .mono { font-family: 'DM Mono', monospace; font-size: 12px; }
+
+  /* ─── UPLOAD ZONE ────────────────────────────── */
+  .upload-zone {
+    border: 2px dashed var(--border2);
+    border-radius: var(--radius);
+    padding: 2rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    background: var(--surface);
+  }
+  .upload-zone:hover { border-color: var(--teal); background: var(--teal-light); }
+  .upload-zone p { font-size: 13px; color: var(--text2); margin-top: 6px; }
+  .upload-zone strong { color: var(--teal-mid); }
+  .file-types { display: flex; gap: 6px; justify-content: center; margin-top: 10px; flex-wrap: wrap; }
+  .ft { font-size: 11px; padding: 2px 8px; border-radius: 20px; background: var(--surface2); border: 1px solid var(--border); color: var(--text2); }
+
+  /* ─── PATHWAY STEPS ──────────────────────────── */
+  .pathway { display: flex; flex-direction: column; gap: 0; }
+  .pathway-step {
+    display: flex;
+    gap: 14px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+  }
+  .pathway-step:last-child { border-bottom: none; }
+  .step-icon {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .step-icon.done { background: var(--teal-light); }
+  .step-icon.current { background: var(--blue-light); }
+  .step-icon.future { background: var(--surface2); }
+  .step-info strong { font-size: 13px; font-weight: 500; display: block; color: var(--text); }
+  .step-info span { font-size: 12px; color: var(--text3); }
+  .step-badge { margin-left: auto; align-self: center; flex-shrink: 0; }
+
+  /* ─── QUIZ MODE CARDS ────────────────────────── */
+  .mode-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px,1fr)); gap: 10px; margin-bottom: 1.25rem; }
+  .mode-card {
+    background: var(--surface);
+    border: 1px solid var(--border2);
+    border-radius: var(--radius);
+    padding: 1.125rem;
+    cursor: pointer;
+    transition: all 0.15s;
+    text-align: left;
+  }
+  .mode-card:hover { border-color: var(--teal); transform: translateY(-2px); box-shadow: var(--shadow); }
+  .mode-card.selected { border: 2px solid var(--teal); background: var(--teal-light); }
+  .mode-icon { font-size: 22px; margin-bottom: 8px; }
+  .mode-name { font-size: 13px; font-weight: 500; color: var(--text); }
+  .mode-desc { font-size: 11px; color: var(--text3); margin-top: 3px; line-height: 1.4; }
+
+  /* ─── NOTES LIST ─────────────────────────────── */
+  .note-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .note-item:last-child { border-bottom: none; }
+  .note-icon {
+    width: 36px; height: 36px;
+    border-radius: var(--radius-sm);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 15px;
+    flex-shrink: 0;
+  }
+  .note-meta strong { font-size: 13px; font-weight: 500; color: var(--text); display: block; }
+  .note-meta span { font-size: 11px; color: var(--text3); }
+
+  /* ─── QUICK STATS ROW ────────────────────────── */
+  .streak-bar {
+    display: flex;
+    gap: 4px;
+    margin-top: 8px;
+  }
+  .streak-day {
+    width: 24px; height: 24px;
+    border-radius: 4px;
+    font-size: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 500;
+  }
+  .streak-day.done { background: var(--teal); color: white; }
+  .streak-day.today { background: var(--teal-light); color: var(--teal-mid); border: 1px solid var(--teal); }
+  .streak-day.empty { background: var(--surface2); color: var(--text3); }
+
+  /* ─── RESPONSIVE ─────────────────────────────── */
+  @media (max-width: 900px) {
+    .sidebar { width: 200px; }
+    .main { margin-left: 200px; }
+    .grid4 { grid-template-columns: repeat(2,1fr); }
+  }
+  @media (max-width: 640px) {
+    .sidebar { display: none; }
+    .main { margin-left: 0; padding: 1rem; }
+    .grid4, .grid3, .grid2 { grid-template-columns: 1fr; }
+  }
+
+  /* ─── SCROLLBAR ──────────────────────────────── */
+  ::-webkit-scrollbar { width: 5px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 10px; }
+
+  /* ─── MOBILE NAV ─────────────────────────────── */
+  .mobile-nav {
+    display: none;
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    z-index: 200;
+    padding: 8px 0 12px;
+    justify-content: space-around;
+  }
+  .mobile-nav-btn {
+    display: flex; flex-direction: column; align-items: center; gap: 2px;
+    font-size: 10px; color: var(--text3); cursor: pointer; padding: 4px 8px;
+  }
+  .mobile-nav-btn.active { color: var(--teal-mid); }
+  @media (max-width: 640px) { .mobile-nav { display: flex; } .main { padding-bottom: 70px; } }
+</style>
+</head>
+<body>
+
+<div class="layout">
+  <!-- ══ SIDEBAR ══════════════════════════════════ -->
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <h1>NurseReady<br>Study Hub</h1>
+      <p>Pierce College → Saint Martin's</p>
+      <span class="admit-badge">⭐ Direct Admit — BSN</span>
+    </div>
+
+    <div class="sidebar-section-label">Main</div>
+    <a class="nav-link active" onclick="showPage('dashboard',this)"><span class="nav-icon">🏠</span> Dashboard</a>
+    <a class="nav-link" onclick="showPage('notes',this)"><span class="nav-icon">📂</span> Upload notes</a>
+    <a class="nav-link" onclick="showPage('flashcards',this)"><span class="nav-icon">🃏</span> Flash cards</a>
+    <a class="nav-link" onclick="showPage('quiz',this)"><span class="nav-icon">✏️</span> Practice quiz</a>
+    <a class="nav-link" onclick="showPage('exams',this)"><span class="nav-icon">🎓</span> Exam prep</a>
+    <a class="nav-link" onclick="showPage('reference',this)"><span class="nav-icon">📋</span> Reference tables</a>
+    <a class="nav-link" onclick="showPage('progress',this)"><span class="nav-icon">📈</span> Progress</a>
+    <a class="nav-link" onclick="showPage('aiask',this)"><span class="nav-icon">💬</span> Ask AI tutor</a>
+
+    <div class="sidebar-section-label">Courses</div>
+    <div class="course-list">
+      <div class="course-chip active" onclick="showPage('chem100',document.querySelector('.nav-link'))">
+        <div><div class="course-chip-name">CHEM 100</div><div class="course-chip-sub">Preloaded · Ch 1,2,5</div></div>
+        <div class="course-dot" style="background:var(--teal)"></div>
+      </div>
+      <div class="course-chip" onclick="showPage('micro260',document.querySelector('.nav-link'))">
+        <div><div class="course-chip-name">Micro 260</div><div class="course-chip-sub">In progress</div></div>
+        <div class="course-dot" style="background:var(--blue)"></div>
+      </div>
+      <div class="course-chip">
+        <div><div class="course-chip-name">A&P I</div><div class="course-chip-sub">Add notes →</div></div>
+        <div class="course-dot" style="background:var(--border2)"></div>
+      </div>
+      <div class="course-chip">
+        <div><div class="course-chip-name">A&P II</div><div class="course-chip-sub">Add notes →</div></div>
+        <div class="course-dot" style="background:var(--border2)"></div>
+      </div>
+      <div class="course-chip">
+        <div><div class="course-chip-name">Nutrition</div><div class="course-chip-sub">Add notes →</div></div>
+        <div class="course-dot" style="background:var(--border2)"></div>
+      </div>
+      <div class="course-chip">
+        <div><div class="course-chip-name">Psychology</div><div class="course-chip-sub">Add notes →</div></div>
+        <div class="course-dot" style="background:var(--border2)"></div>
+      </div>
+      <div class="course-chip">
+        <div><div class="course-chip-name">Biology</div><div class="course-chip-sub">Add notes →</div></div>
+        <div class="course-dot" style="background:var(--border2)"></div>
+      </div>
+    </div>
+
+    <div class="sidebar-footer">
+      Ella Blue · Pierce College<br>Saint Martin's University BSN
+    </div>
+  </aside>
+
+  <!-- ══ MAIN ═════════════════════════════════════ -->
+  <main class="main">
+
+    <!-- ── DASHBOARD ───────────────────────────── -->
+    <div id="page-dashboard" class="page active">
+      <div class="page-header">
+        <h2>Good morning, Ella 👋</h2>
+        <p>Pierce College · Pre-nursing prerequisites · Spring 2025</p>
+      </div>
+
+      <div class="grid4">
+        <div class="card">
+          <div class="card-title">Courses active</div>
+          <div class="card-big">2</div>
+          <div class="card-sub">CHEM 100 · Micro 260</div>
+        </div>
+        <div class="card">
+          <div class="card-title">Flash cards</div>
+          <div class="card-big">42</div>
+          <div class="card-sub">Mastered: 18 &nbsp;·&nbsp; Learning: 24</div>
+        </div>
+        <div class="card">
+          <div class="card-title">Quiz avg score</div>
+          <div class="card-big" style="color:var(--teal)">84%</div>
+          <div class="card-sub">Last 5 quizzes</div>
+        </div>
+        <div class="card">
+          <div class="card-title">Study streak</div>
+          <div class="card-big" style="color:var(--amber)">4</div>
+          <div class="card-sub">days in a row 🔥</div>
+        </div>
+      </div>
+
+      <div class="grid2">
+        <div class="panel">
+          <div class="panel-title">📍 Nursing pathway</div>
+          <div class="pathway">
+            <div class="pathway-step">
+              <div class="step-icon done">✅</div>
+              <div class="step-info">
+                <strong>CHEM 100 — Foundations of Chemistry</strong>
+                <span>Pierce College · Notes preloaded</span>
+              </div>
+              <span class="step-badge badge badge-teal">Active</span>
+            </div>
+            <div class="pathway-step">
+              <div class="step-icon current">🔬</div>
+              <div class="step-info">
+                <strong>Microbiology 260</strong>
+                <span>Pierce College · In progress</span>
+              </div>
+              <span class="step-badge badge badge-blue">Current</span>
+            </div>
+            <div class="pathway-step">
+              <div class="step-icon future">🧬</div>
+              <div class="step-info">
+                <strong>Anatomy &amp; Physiology I &amp; II</strong>
+                <span>Add notes to unlock</span>
+              </div>
+            </div>
+            <div class="pathway-step">
+              <div class="step-icon future">💊</div>
+              <div class="step-info">
+                <strong>Nutrition · Psychology · Biology</strong>
+                <span>Pre-nursing prerequisites</span>
+              </div>
+            </div>
+            <div class="pathway-step">
+              <div class="step-icon" style="background:var(--purple-light)">🏛️</div>
+              <div class="step-info">
+                <strong>Saint Martin's University — BSN</strong>
+                <span>Lacey, WA · Direct admit confirmed</span>
+              </div>
+              <span class="step-badge badge badge-purple">Admitted</span>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="panel" style="margin-bottom:14px;">
+            <div class="panel-title">📊 Topic mastery — CHEM 100</div>
+            <div class="prog-row"><span class="prog-label">Classifying Matter</span><div class="prog-track"><div class="prog-fill" style="width:88%;background:var(--teal)"></div></div><span class="prog-pct">88%</span></div>
+            <div class="prog-row"><span class="prog-label">Sig figs &amp; Notation</span><div class="prog-track"><div class="prog-fill" style="width:80%;background:var(--teal)"></div></div><span class="prog-pct">80%</span></div>
+            <div class="prog-row"><span class="prog-label">Atomic Theory</span><div class="prog-track"><div class="prog-fill" style="width:62%;background:var(--blue)"></div></div><span class="prog-pct">62%</span></div>
+            <div class="prog-row"><span class="prog-label">Polyatomic Ions</span><div class="prog-track"><div class="prog-fill" style="width:45%;background:var(--amber)"></div></div><span class="prog-pct">45%</span></div>
+            <div class="prog-row"><span class="prog-label">Organic Chemistry</span><div class="prog-track"><div class="prog-fill" style="width:30%;background:var(--coral)"></div></div><span class="prog-pct">30%</span></div>
+          </div>
+          <div class="panel">
+            <div class="panel-title">🔥 Study streak</div>
+            <div class="streak-bar">
+              <div class="streak-day done">M</div>
+              <div class="streak-day done">T</div>
+              <div class="streak-day done">W</div>
+              <div class="streak-day done">T</div>
+              <div class="streak-day today">F</div>
+              <div class="streak-day empty">S</div>
+              <div class="streak-day empty">S</div>
+            </div>
+            <p style="font-size:12px;color:var(--text3);margin-top:8px;">4 days strong — keep it up!</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-title">💬 Quick question — AI tutor</div>
+        <div style="display:flex;gap:8px;">
+          <input type="text" id="dash-q" placeholder="Ask anything about your chemistry or microbiology notes..." style="flex:1;" onkeydown="if(event.key==='Enter')dashAsk()">
+          <button class="btn-primary" onclick="dashAsk()">Ask ↗</button>
+        </div>
+        <div id="dash-loading" class="loading"><div class="spinner"></div>Thinking...</div>
+        <div id="dash-out" class="ai-output"></div>
+      </div>
+    </div>
+
+    <!-- ── NOTES UPLOAD ─────────────────────────── -->
+    <div id="page-notes" class="page">
+      <div class="page-header">
+        <h2>Upload notes</h2>
+        <p>Add class notes, photos of handwritten notes, or paste text — AI will process and organize everything.</p>
+      </div>
+      <div class="panel">
+        <div class="panel-title">Add new notes</div>
+        <div class="form-row" style="margin-bottom:1rem;">
+          <div class="form-group">
+            <span class="form-label">Course</span>
+            <select id="note-course">
+              <option>CHEM 100 — Foundations of Chemistry</option>
+              <option>Microbiology 260</option>
+              <option>Anatomy &amp; Physiology I</option>
+              <option>Anatomy &amp; Physiology II</option>
+              <option>Biology</option>
+              <option>Chemistry</option>
+              <option>Nutrition</option>
+              <option>Psychology</option>
+              <option>Kinesiology</option>
+              <option>English/Writing</option>
+              <option>Math/Statistics</option>
+              <option>Nursing 101 (Saint Martin's)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <span class="form-label">Lecture / topic title</span>
+            <input type="text" id="note-title" placeholder="e.g. Chapter 3 — Chemical Bonding">
+          </div>
+        </div>
+        <div class="upload-zone" onclick="document.getElementById('file-upload').click()">
+          <input type="file" id="file-upload" multiple accept=".pdf,.doc,.docx,.pptx,.png,.jpg,.jpeg,.txt" style="display:none" onchange="handleUpload(event)">
+          <div style="font-size:32px;margin-bottom:6px;">📁</div>
+          <p><strong>Click to upload</strong> or drag files here</p>
+          <p>Handwritten note photos welcome — AI can read them</p>
+          <div class="file-types">
+            <span class="ft">PDF</span><span class="ft">DOCX</span><span class="ft">PPTX</span>
+            <span class="ft">PNG/JPG</span><span class="ft">TXT</span>
+          </div>
+        </div>
+        <div style="margin-top:1rem;">
+          <span class="form-label" style="display:block;margin-bottom:6px;">Or paste / type notes directly</span>
+          <textarea id="notes-text" placeholder="Paste or type your lecture notes here..."></textarea>
+          <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;">
+            <button class="btn-primary" onclick="processNotes()">Summarize with AI ↗</button>
+            <button class="btn-outline" onclick="genCardsFromNotes()">Auto-generate flash cards ↗</button>
+            <button class="btn-outline" onclick="genQuizFromNotes()">Auto-generate quiz ↗</button>
+          </div>
+        </div>
+        <div id="notes-loading" class="loading"><div class="spinner"></div>Processing notes...</div>
+        <div id="notes-out" class="ai-output"></div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-title">📚 Saved notes — CHEM 100</div>
+        <div class="note-item">
+          <div class="note-icon" style="background:var(--coral-light)">📄</div>
+          <div class="note-meta" style="flex:1"><strong>Ch. 1 &amp; 2 Worksheet — Ella Blue</strong><span>CHEM 100 · Sep 29, 2024 · Handwritten scan</span></div>
+          <span class="badge badge-teal">Matter</span>
+        </div>
+        <div class="note-item">
+          <div class="note-icon" style="background:var(--blue-light)">📊</div>
+          <div class="note-meta" style="flex:1"><strong>Ch. 1 &amp; 2 Homework — Part 1</strong><span>CHEM 100 · Sep 29, 2024 · Handwritten scan</span></div>
+          <span class="badge badge-blue">Measurement</span>
+        </div>
+        <div class="note-item">
+          <div class="note-icon" style="background:var(--purple-light)">📑</div>
+          <div class="note-meta" style="flex:1"><strong>Ch. 5 Lecture Slides (22 slides)</strong><span>CHEM 100 · Atomic theory, isotopes, subatomic particles</span></div>
+          <span class="badge badge-purple">Atoms</span>
+        </div>
+        <div class="note-item">
+          <div class="note-icon" style="background:var(--teal-light)">📝</div>
+          <div class="note-meta" style="flex:1"><strong>Polyatomic Ions &amp; Aufbau Reference</strong><span>CHEM 100 · Periodic table &amp; electron configuration</span></div>
+          <span class="badge badge-teal">Reference</span>
+        </div>
+        <div class="note-item">
+          <div class="note-icon" style="background:var(--amber-light)">📃</div>
+          <div class="note-meta" style="flex:1"><strong>Case Study Final — Propylene Glycol</strong><span>CHEM 100 · Ultrasound gel organic chemistry</span></div>
+          <span class="badge badge-amber">Organic</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── FLASH CARDS ──────────────────────────── -->
+    <div id="page-flashcards" class="page">
+      <div class="page-header">
+        <h2>Flash cards</h2>
+        <p>Study Ella's notes — flip to reveal, mark what you know</p>
+      </div>
+      <div class="panel">
+        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:1rem;">
+          <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <select id="fc-deck" onchange="loadDeck()">
+              <option value="ch1">CHEM 100 — Ch. 1 Matter</option>
+              <option value="ch2">CHEM 100 — Ch. 2 Measurement</option>
+              <option value="ch5">CHEM 100 — Ch. 5 Atoms</option>
+              <option value="ions">Polyatomic Ions</option>
+              <option value="micro">Microbiology 260</option>
+              <option value="nursing">Nursing terms</option>
+            </select>
+            <button class="btn-outline" onclick="genAICards()">Generate new cards ↗</button>
+          </div>
+          <span style="font-size:12px;color:var(--teal-mid);font-weight:500;" id="fc-known-disp">Known: 0</span>
+        </div>
+        <div class="fc-progress-wrap">
+          <div class="fc-counter">
+            <span id="fc-counter-disp">Card 1 of 6</span>
+            <span id="fc-pct-disp">0% complete</span>
+          </div>
+          <div class="fc-bar"><div class="fc-bar-fill" id="fc-bar" style="width:0%"></div></div>
+        </div>
+        <div class="fc-scene" onclick="flipCard()" id="fc-scene">
+          <div class="fc-card" id="fc-card">
+            <div class="fc-face fc-front">
+              <div class="fc-label-top">Term</div>
+              <div class="fc-main-text" id="fc-front-text">Loading...</div>
+              <div class="fc-hint">Click to flip</div>
+            </div>
+            <div class="fc-face fc-back">
+              <div class="fc-label-top">Definition</div>
+              <div class="fc-main-text" id="fc-back-text">Definition here</div>
+              <div class="fc-hint">Click to flip back</div>
+            </div>
+          </div>
+        </div>
+        <div class="fc-controls">
+          <button class="fc-btn learn" onclick="markCard(false)">↩ Still learning</button>
+          <button class="fc-btn" onclick="flipCard()">Flip card</button>
+          <button class="fc-btn know" onclick="markCard(true)">✓ Know it</button>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-title">➕ Add a custom card</div>
+        <div class="form-row">
+          <div class="form-group"><span class="form-label">Term or question</span><input type="text" id="custom-term" placeholder="e.g. Peptidoglycan"></div>
+          <div class="form-group"><span class="form-label">Definition or answer</span><input type="text" id="custom-def" placeholder="e.g. Cell wall component found in bacteria..."></div>
+          <button class="btn-outline" onclick="addCustomCard()" style="align-self:flex-end;">Add card</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── PRACTICE QUIZ ────────────────────────── -->
+    <div id="page-quiz" class="page">
+      <div class="page-header">
+        <h2>Practice quiz</h2>
+        <p>AI generates questions from Ella's actual notes and course material</p>
+      </div>
+      <div id="quiz-setup">
+        <div class="panel">
+          <div class="panel-title">Quiz mode</div>
+          <div class="mode-grid">
+            <div class="mode-card selected" id="qm-mc" onclick="selectMode('mc',this)">
+              <div class="mode-icon">📋</div>
+              <div class="mode-name">Multiple choice</div>
+              <div class="mode-desc">4 options, one correct answer</div>
+            </div>
+            <div class="mode-card" id="qm-tf" onclick="selectMode('tf',this)">
+              <div class="mode-icon">⚖️</div>
+              <div class="mode-name">True / false</div>
+              <div class="mode-desc">Quick recall of key facts</div>
+            </div>
+            <div class="mode-card" id="qm-calc" onclick="selectMode('calc',this)">
+              <div class="mode-icon">🔢</div>
+              <div class="mode-name">Calculations</div>
+              <div class="mode-desc">Sig figs, notation, atomic mass</div>
+            </div>
+            <div class="mode-card" id="qm-short" onclick="selectMode('short',this)">
+              <div class="mode-icon">💬</div>
+              <div class="mode-name">Short answer</div>
+              <div class="mode-desc">AI grades written responses</div>
+            </div>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="panel-title">Configure quiz</div>
+          <div class="form-row" style="margin-bottom:1rem;">
+            <div class="form-group">
+              <span class="form-label">Topic / course</span>
+              <select id="quiz-topic">
+                <option>CHEM 100 — All topics</option>
+                <option>CHEM 100 — Ch. 1 Classifying Matter</option>
+                <option>CHEM 100 — Ch. 2 Measurement &amp; Sig Figs</option>
+                <option>CHEM 100 — Ch. 5 Atomic Theory</option>
+                <option>CHEM 100 — Polyatomic Ions</option>
+                <option>Microbiology 260 — All topics</option>
+                <option>Microbiology 260 — Bacterial structure</option>
+                <option>Microbiology 260 — Gram staining</option>
+                <option>Microbiology 260 — Immune response</option>
+                <option>Nursing — Infection control</option>
+                <option>Nursing — Clinical terminology</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <span class="form-label">Number of questions</span>
+              <select id="quiz-count">
+                <option>5</option><option selected>10</option><option>15</option><option>20</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <span class="form-label">Difficulty</span>
+              <select id="quiz-diff">
+                <option>Basic recall</option>
+                <option selected>Understanding</option>
+                <option>Application / NCLEX-style</option>
+              </select>
+            </div>
+          </div>
+          <button class="btn-primary" onclick="startQuiz()">Generate quiz with AI ↗</button>
+        </div>
+      </div>
+      <div id="quiz-running" style="display:none;">
+        <div id="quiz-gen-loading" class="loading"><div class="spinner"></div>Generating your personalized quiz...</div>
+        <div id="quiz-output"></div>
+      </div>
+    </div>
+
+    <!-- ── EXAM PREP ────────────────────────────── -->
+    <div id="page-exams" class="page">
+      <div class="page-header">
+        <h2>Exam preparation</h2>
+        <p>Full simulated exams, study guides, and NCLEX-style practice</p>
+      </div>
+      <div class="mode-grid" style="margin-bottom:1.25rem;">
+        <div class="mode-card selected" id="em-mid" onclick="selectExamMode('midterm',this)">
+          <div class="mode-icon">📖</div>
+          <div class="mode-name">Midterm prep</div>
+          <div class="mode-desc">Ch. 1–7, 25 questions</div>
+        </div>
+        <div class="mode-card" id="em-fin" onclick="selectExamMode('final',this)">
+          <div class="mode-icon">🎓</div>
+          <div class="mode-name">Final exam prep</div>
+          <div class="mode-desc">Full semester, 50 questions</div>
+        </div>
+        <div class="mode-card" id="em-nclex" onclick="selectExamMode('nclex',this)">
+          <div class="mode-icon">🏥</div>
+          <div class="mode-name">NCLEX-style</div>
+          <div class="mode-desc">Critical thinking &amp; clinical</div>
+        </div>
+        <div class="mode-card" id="em-guide" onclick="selectExamMode('guide',this)">
+          <div class="mode-icon">📝</div>
+          <div class="mode-name">Study guide</div>
+          <div class="mode-desc">Key concepts &amp; summaries</div>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="form-row" style="margin-bottom:1rem;">
+          <div class="form-group">
+            <span class="form-label">Focus area</span>
+            <select id="exam-focus">
+              <option>CHEM 100 — All topics</option>
+              <option>CHEM 100 — Matter &amp; Measurement</option>
+              <option>CHEM 100 — Atomic Structure</option>
+              <option>Microbiology 260 — All topics</option>
+              <option>Microbiology 260 — Bacteria</option>
+              <option>Microbiology 260 — Host–pathogen</option>
+              <option>Nursing — Infection control clinical</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <span class="form-label">Include nursing applications?</span>
+            <select id="exam-nursing">
+              <option>Yes — include clinical scenarios</option>
+              <option>No — core science only</option>
+            </select>
+          </div>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <button class="btn-primary" onclick="startExam()">Start exam ↗</button>
+          <button class="btn-outline" onclick="makeStudyGuide()">Generate study guide ↗</button>
+        </div>
+        <div id="exam-loading" class="loading"><div class="spinner"></div>Building your exam...</div>
+        <div id="exam-out" class="ai-output"></div>
+      </div>
+    </div>
+
+    <!-- ── REFERENCE TABLES ─────────────────────── -->
+    <div id="page-reference" class="page">
+      <div class="page-header">
+        <h2>Reference tables</h2>
+        <p>Preloaded from Ella's CHEM 100 reference sheet</p>
+      </div>
+
+      <div class="panel">
+        <div class="panel-title">⚗️ Polyatomic ions — from Ella's reference sheet</div>
+        <div style="overflow-x:auto;">
+          <table class="ion-table">
+            <thead>
+              <tr><th>Name</th><th>Formula</th><th>Charge</th><th>Name</th><th>Formula</th><th>Charge</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Acetate</td><td class="mono">C₂H₃O₂⁻</td><td>1−</td><td>Cyanide</td><td class="mono">CN⁻</td><td>1−</td></tr>
+              <tr><td>Ammonium</td><td class="mono">NH₄⁺</td><td>1+</td><td>Dichromate</td><td class="mono">Cr₂O₇²⁻</td><td>2−</td></tr>
+              <tr><td>Hydrogen Carbonate</td><td class="mono">HCO₃⁻</td><td>1−</td><td>Hydroxide</td><td class="mono">OH⁻</td><td>1−</td></tr>
+              <tr><td>Hydrogen Sulfate</td><td class="mono">HSO₄⁻</td><td>1−</td><td>Nitrate</td><td class="mono">NO₃⁻</td><td>1−</td></tr>
+              <tr><td>Bromate</td><td class="mono">BrO₃⁻</td><td>1−</td><td>Nitrite</td><td class="mono">NO₂⁻</td><td>1−</td></tr>
+              <tr><td>Carbonate</td><td class="mono">CO₃²⁻</td><td>2−</td><td>Permanganate</td><td class="mono">MnO₄⁻</td><td>1−</td></tr>
+              <tr><td>Chlorate</td><td class="mono">ClO₃⁻</td><td>1−</td><td>Phosphate</td><td class="mono">PO₄³⁻</td><td>3−</td></tr>
+              <tr><td>Chromate</td><td class="mono">CrO₄²⁻</td><td>2−</td><td>Sulfate</td><td class="mono">SO₄²⁻</td><td>2−</td></tr>
+              <tr><td>Perchlorate</td><td class="mono">ClO₄⁻</td><td>1−</td><td>Sulfite</td><td class="mono">SO₃²⁻</td><td>2−</td></tr>
+              <tr><td>Hypochlorite</td><td class="mono">ClO⁻</td><td>1−</td><td>Chlorite</td><td class="mono">ClO₂⁻</td><td>1−</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="grid2">
+        <div class="panel">
+          <div class="panel-title">🔬 Aufbau — subshell filling order</div>
+          <div style="font-family:'DM Mono',monospace;font-size:13px;line-height:2.2;color:var(--text);background:var(--bg);padding:12px;border-radius:var(--radius-sm);">
+            1s → 2s → 2p → 3s → 3p<br>
+            → 4s → 3d → 4p → 5s<br>
+            → 4d → 5p → 6s → 4f<br>
+            → 5d → 6p → 7s
+          </div>
+          <div style="margin-top:10px;font-size:12px;color:var(--text3);">
+            s = 2e⁻ &nbsp;·&nbsp; p = 6e⁻ &nbsp;·&nbsp; d = 10e⁻ &nbsp;·&nbsp; f = 14e⁻
+          </div>
+        </div>
+        <div class="panel">
+          <div class="panel-title">📏 Significant figure rules — from Ella's worksheet</div>
+          <div style="font-size:13px;color:var(--text2);display:flex;flex-direction:column;gap:8px;">
+            <div><strong style="color:var(--text)">Non-zero digits</strong> — always significant</div>
+            <div><strong style="color:var(--text)">Leading zeros</strong> — never significant (0.0081 → 2 SF)</div>
+            <div><strong style="color:var(--text)">Trailing zeros + decimal</strong> — significant (250. → 3 SF)</div>
+            <div><strong style="color:var(--text)">Trailing zeros, no decimal</strong> — ambiguous (42000 → 2 SF)</div>
+            <div><strong style="color:var(--text)">Captive zeros</strong> — always significant (4.090×10⁻³ → 4 SF)</div>
+            <div><strong style="color:var(--text)">Sci notation digits</strong> — all significant</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-title">🧪 Ella's worksheet answers — Sep 29, 2024</div>
+        <div class="concept-grid">
+          <div class="concept-card"><div class="concept-term">0.0000123</div><div class="concept-def">3 significant figures (leading zeros don't count)</div></div>
+          <div class="concept-card"><div class="concept-term">42000</div><div class="concept-def">2 significant figures (trailing zeros, no decimal)</div></div>
+          <div class="concept-card"><div class="concept-term">1.57486 × 10⁻⁷</div><div class="concept-def">6 significant figures (all digits in sci notation)</div></div>
+          <div class="concept-card"><div class="concept-term">425,000 m → ?</div><div class="concept-def">4.25 × 10⁵ m (scientific notation)</div></div>
+          <div class="concept-card"><div class="concept-term">0.000927 g → ?</div><div class="concept-def">9.27 × 10⁻⁴ g</div></div>
+          <div class="concept-card"><div class="concept-term">Copper wire</div><div class="concept-def">Pure substance (single element, uniform composition)</div></div>
+          <div class="concept-card"><div class="concept-term">Brass alloy</div><div class="concept-def">Mixture (two metals combined)</div></div>
+          <div class="concept-card"><div class="concept-term">Coffee with milk</div><div class="concept-def">Mixture — heterogeneous (distinct phases)</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── PROGRESS ─────────────────────────────── -->
+    <div id="page-progress" class="page">
+      <div class="page-header">
+        <h2>Progress tracker</h2>
+        <p>Study metrics across all of Ella's courses</p>
+      </div>
+      <div class="grid4">
+        <div class="card"><div class="card-title">Study sessions</div><div class="card-big">18</div><div class="card-sub">This month</div></div>
+        <div class="card"><div class="card-title">Cards mastered</div><div class="card-big">18<span style="font-size:18px;color:var(--text3)">/42</span></div><div class="card-sub">43% complete</div></div>
+        <div class="card"><div class="card-title">Quizzes done</div><div class="card-big">9</div><div class="card-sub">Avg: 84%</div></div>
+        <div class="card"><div class="card-title">Streak</div><div class="card-big" style="color:var(--amber)">4🔥</div><div class="card-sub">days in a row</div></div>
+      </div>
+      <div class="grid2">
+        <div class="panel">
+          <div class="panel-title">📚 Course progress</div>
+          <div class="prog-row"><span class="prog-label">CHEM 100</span><div class="prog-track"><div class="prog-fill" style="width:72%;background:var(--teal)"></div></div><span class="prog-pct">72%</span></div>
+          <div class="prog-row"><span class="prog-label">Microbiology 260</span><div class="prog-track"><div class="prog-fill" style="width:45%;background:var(--blue)"></div></div><span class="prog-pct">45%</span></div>
+          <div class="prog-row"><span class="prog-label">A&amp;P I</span><div class="prog-track"><div class="prog-fill" style="width:0%;background:var(--border2)"></div></div><span class="prog-pct">—</span></div>
+          <div class="prog-row"><span class="prog-label">Nutrition</span><div class="prog-track"><div class="prog-fill" style="width:0%;background:var(--border2)"></div></div><span class="prog-pct">—</span></div>
+        </div>
+        <div class="panel">
+          <div class="panel-title">🧬 CHEM 100 — Topic breakdown</div>
+          <div class="prog-row"><span class="prog-label">Classifying Matter</span><div class="prog-track"><div class="prog-fill" style="width:88%;background:var(--teal)"></div></div><span class="prog-pct">88%</span></div>
+          <div class="prog-row"><span class="prog-label">Sig figs &amp; Notation</span><div class="prog-track"><div class="prog-fill" style="width:80%;background:var(--teal)"></div></div><span class="prog-pct">80%</span></div>
+          <div class="prog-row"><span class="prog-label">Atomic Theory</span><div class="prog-track"><div class="prog-fill" style="width:62%;background:var(--blue)"></div></div><span class="prog-pct">62%</span></div>
+          <div class="prog-row"><span class="prog-label">Polyatomic Ions</span><div class="prog-track"><div class="prog-fill" style="width:45%;background:var(--amber)"></div></div><span class="prog-pct">45%</span></div>
+          <div class="prog-row"><span class="prog-label">Organic Chem</span><div class="prog-track"><div class="prog-fill" style="width:30%;background:var(--coral)"></div></div><span class="prog-pct">30%</span></div>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="panel-title">🗓️ Personalized study plan — AI powered</div>
+        <textarea id="plan-q" placeholder="Tell the AI what's coming up: e.g. 'I have a CHEM 100 midterm in 10 days covering chapters 1-5. I feel weakest on atomic theory and sig fig calculations. I can study 2 hours per day.'"></textarea>
+        <button class="btn-primary" onclick="getStudyPlan()" style="margin-top:10px;">Generate my study plan ↗</button>
+        <div id="plan-loading" class="loading"><div class="spinner"></div>Creating your personalized plan...</div>
+        <div id="plan-out" class="ai-output"></div>
+      </div>
+    </div>
+
+    <!-- ── ASK AI ────────────────────────────────── -->
+    <div id="page-aiask" class="page">
+      <div class="page-header">
+        <h2>AI tutor</h2>
+        <p>Your personal chemistry and nursing science tutor — knows Ella's notes</p>
+      </div>
+      <div class="panel">
+        <div class="panel-title">⚡ Quick questions — from Ella's notes</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1rem;">
+          <button class="btn-outline" style="font-size:12px;" onclick="quickQ('Explain the difference between homogeneous and heterogeneous mixtures using examples from Ella\'s worksheet')">Matter types</button>
+          <button class="btn-outline" style="font-size:12px;" onclick="quickQ('Walk me through how to count significant figures. Use the examples 0.0000123, 42000, and 1.57486×10⁻⁷')">Sig figs walkthrough</button>
+          <button class="btn-outline" style="font-size:12px;" onclick="quickQ('Explain Dalton\'s atomic theory and the key revisions to it (Thomson and Rutherford models)')">Atomic theory</button>
+          <button class="btn-outline" style="font-size:12px;" onclick="quickQ('How do you calculate average atomic mass from isotope abundances? Use the copper example from Ch. 5')">Isotope mass calc</button>
+          <button class="btn-outline" style="font-size:12px;" onclick="quickQ('Why is propylene glycol (C3H8O2) considered an organic compound? What are its functional groups? This is from Ella\'s case study on ultrasound gel')">Propylene glycol</button>
+          <button class="btn-outline" style="font-size:12px;" onclick="quickQ('What are the polyatomic ions I need to memorize for CHEM 100? Which ones appear most often in nursing clinical contexts?')">Top polyatomic ions</button>
+        </div>
+        <textarea id="main-q" placeholder="Ask anything about CHEM 100, Microbiology 260, or your pre-nursing prerequisites..." style="min-height:100px;"></textarea>
+        <button class="btn-primary" onclick="mainAsk()" style="margin-top:10px;">Ask AI tutor ↗</button>
+        <div id="main-loading" class="loading"><div class="spinner"></div>Thinking...</div>
+        <div id="main-out" class="ai-output"></div>
+      </div>
+    </div>
+
+    <!-- ── CHEM 100 COURSE ──────────────────────── -->
+    <div id="page-chem100" class="page">
+      <div class="page-header">
+        <h2>CHEM 100 — Foundations of Chemistry</h2>
+        <p>Pierce College · Preloaded from Ella's notes, worksheets, and lecture slides</p>
+      </div>
+      <div class="ch-nav">
+        <button class="ch-tab active" onclick="showChap(1,this)">Chapter 1 — Matter</button>
+        <button class="ch-tab" onclick="showChap(2,this)">Chapter 2 — Measurement</button>
+        <button class="ch-tab" onclick="showChap(5,this)">Chapter 5 — Atoms</button>
+        <button class="ch-tab" onclick="showChap('cs',this)">Case study</button>
+      </div>
+      <div id="chap-content"></div>
+    </div>
+
+    <!-- ── MICRO 260 COURSE ─────────────────────── -->
+    <div id="page-micro260" class="page">
+      <div class="page-header">
+        <h2>Microbiology 260</h2>
+        <p>Pierce College · Spring 2025 · Upload lecture notes to build this module</p>
+      </div>
+      <div class="grid3">
+        <div class="card"><div class="card-title">Flash cards</div><div class="card-big">18</div><div class="card-sub">Bacteria, viruses, immunity</div></div>
+        <div class="card"><div class="card-title">Quiz avg</div><div class="card-big" style="color:var(--teal)">79%</div><div class="card-sub">Last 3 quizzes</div></div>
+        <div class="card"><div class="card-title">Topics</div><div class="card-big">5</div><div class="card-sub">Covered this semester</div></div>
+      </div>
+      <div class="panel">
+        <div class="panel-title">📊 Topic mastery</div>
+        <div class="prog-row"><span class="prog-label">Bacterial structure</span><div class="prog-track"><div class="prog-fill" style="width:80%;background:var(--teal)"></div></div><span class="prog-pct">80%</span></div>
+        <div class="prog-row"><span class="prog-label">Gram staining</span><div class="prog-track"><div class="prog-fill" style="width:70%;background:var(--teal)"></div></div><span class="prog-pct">70%</span></div>
+        <div class="prog-row"><span class="prog-label">Viral replication</span><div class="prog-track"><div class="prog-fill" style="width:55%;background:var(--blue)"></div></div><span class="prog-pct">55%</span></div>
+        <div class="prog-row"><span class="prog-label">Immune response</span><div class="prog-track"><div class="prog-fill" style="width:40%;background:var(--amber)"></div></div><span class="prog-pct">40%</span></div>
+        <div class="prog-row"><span class="prog-label">Antimicrobials</span><div class="prog-track"><div class="prog-fill" style="width:25%;background:var(--coral)"></div></div><span class="prog-pct">25%</span></div>
+      </div>
+      <div class="panel">
+        <div class="panel-title">📂 Upload Micro 260 notes</div>
+        <div class="upload-zone" onclick="document.getElementById('micro-upload').click()">
+          <input type="file" id="micro-upload" multiple style="display:none" onchange="handleUpload(event)">
+          <div style="font-size:28px;margin-bottom:6px;">🔬</div>
+          <p><strong>Upload lecture notes, lab reports, or slide photos</strong></p>
+          <p>AI will extract key concepts and build flash cards automatically</p>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- Mobile nav -->
+<div class="mobile-nav">
+  <div class="mobile-nav-btn active" onclick="showPage('dashboard',this)"><span>🏠</span>Home</div>
+  <div class="mobile-nav-btn" onclick="showPage('flashcards',this)"><span>🃏</span>Cards</div>
+  <div class="mobile-nav-btn" onclick="showPage('quiz',this)"><span>✏️</span>Quiz</div>
+  <div class="mobile-nav-btn" onclick="showPage('notes',this)"><span>📂</span>Notes</div>
+  <div class="mobile-nav-btn" onclick="showPage('aiask',this)"><span>💬</span>AI</div>
+</div>
+
+<script>
+// ── DATA ──────────────────────────────────────────────────────────────────
+const CHAPTERS = {
+  1: {
+    title: "Chapter 1 — Classifying Matter",
+    note: "From Ella's worksheet (Sep 29, 2024): Matter is classified as pure substances or mixtures. Pure substances maintain the same composition; mixtures have varying compositions and properties. Homogeneous = solution (same throughout). Heterogeneous = distinct phases visible.",
+    concepts: [
+      { t:"Pure substance", d:"Uniform, consistent composition throughout. Includes elements and compounds." },
+      { t:"Element", d:"Pure substance made of one kind of atom. Cannot be broken down chemically. e.g. copper (Cu), oxygen (O)." },
+      { t:"Compound", d:"Pure substance made of 2+ elements in fixed ratio. e.g. water H₂O, salt NaCl." },
+      { t:"Mixture", d:"Two or more substances combined. Variable composition. Separated physically." },
+      { t:"Homogeneous mixture", d:"Same properties throughout — also called a solution. e.g. stainless steel, motor oil, salt water." },
+      { t:"Heterogeneous mixture", d:"Contains distinct phases. e.g. soil, a tree, chocolate chip cookie, maple leaf (Ella's HW)." },
+      { t:"Solution", d:"The scientific name for a homogeneous mixture. Uniform appearance and properties." },
+      { t:"Attraction forces (ascending)", d:"Gases < Liquids < Solids (from least to greatest attraction between particles — Ella's worksheet Q5)" },
+    ]
+  },
+  2: {
+    title: "Chapter 2 — Measurement & Uncertainty",
+    note: "From Ella's homework (Sep 29, 2024): 0.0000123 = 3 SF · 42000 = 2 SF · 1.57486×10⁻⁷ = 6 SF. Measurements in science must record all certain digits + 1st uncertain digit. Sig figs indicate precision of the instrument used.",
+    concepts: [
+      { t:"Measurement", d:"A numerical value paired with a unit. e.g. 32.1 mL, 27.0 cm (from Ella's worksheet Q9)." },
+      { t:"Significant figures (SF)", d:"All certain digits plus the first uncertain digit. Indicates measurement precision." },
+      { t:"Leading zeros", d:"Never significant. 0.0000123 has 3 SF (the 1, 2, 3)." },
+      { t:"Trailing zeros (with decimal)", d:"Always significant. 250. has 3 SF. 4.090×10⁻³ has 4 SF." },
+      { t:"Trailing zeros (no decimal)", d:"Ambiguous. 42000 assumed to be 2 SF unless shown otherwise." },
+      { t:"Scientific notation", d:"Coefficient × 10ⁿ. All digits shown are significant. e.g. 4.25×10⁵ = 425,000 m." },
+      { t:"Accuracy", d:"How close a measurement is to the true/accepted value." },
+      { t:"Precision", d:"How close repeated measurements are to each other. Related to sig fig count." },
+    ]
+  },
+  5: {
+    title: "Chapter 5 — Atomic Theory & Structure",
+    note: "From Ch. 5 lecture slides (Hein, 15th ed.): Dalton (1803) → Thomson plum pudding (1904) → Rutherford nuclear model (1911). Atomic number = # protons. Mass number = protons + neutrons. Isotopes: same element, different neutrons.",
+    concepts: [
+      { t:"Dalton's atomic theory (1803)", d:"All matter made of indivisible atoms. Same element = identical atoms. Compounds = fixed element ratios." },
+      { t:"Revision #1 to Dalton", d:"Atoms are NOT indivisible — they're made of subatomic particles (electrons, protons, neutrons)." },
+      { t:"Revision #2 to Dalton", d:"Not all atoms of same element are identical — isotopes exist with different masses." },
+      { t:"Electron (e⁻)", d:"Negative charge (−1). Mass: 9.110×10⁻²⁸ g. Located outside nucleus. Thomson discovered (1904)." },
+      { t:"Proton (p)", d:"Positive charge (+1). Located in nucleus. Number = atomic number = element identity." },
+      { t:"Neutron (n)", d:"No charge. Located in nucleus. Mass ≈ proton. Varies in isotopes." },
+      { t:"Isotopes", d:"Same element (same atomic number/protons), different number of neutrons → different mass numbers." },
+      { t:"Atomic mass (amu)", d:"Weighted average of all naturally occurring isotopes. e.g. Cu = 63.546 amu from Cu-63 and Cu-65." },
+    ]
+  },
+  cs: {
+    title: "Case Study — Propylene Glycol in Ultrasound Gel",
+    note: "From Ella's Case_Study_Final.docx: Riley's ultrasound appointment. Dr. Nelson explains the gel is made of water, glycerin, and propylene glycol (C₃H₈O₂). Questions explore organic chemistry fundamentals with direct clinical relevance to nursing.",
+    concepts: [
+      { t:"Propylene glycol formula", d:"C₃H₈O₂ — 3 carbons, 8 hydrogens, 2 oxygens." },
+      { t:"Functional groups", d:"Two hydroxyl groups (–OH) → making it a diol (a type of alcohol)." },
+      { t:"Organic or inorganic?", d:"Organic — contains carbon-hydrogen (C–H) bonds in its backbone." },
+      { t:"Skeletal structure", d:"3-carbon chain with OH groups on C1 and C2. Abbreviated as CH₃CH(OH)CH₂OH." },
+      { t:"Clinical use", d:"Non-toxic, water-soluble. Used in ultrasound gel, IV medications, topical preparations in nursing." },
+      { t:"Why it works as gel", d:"Glycerin and propylene glycol improve acoustic coupling between transducer and skin for better ultrasound images." },
+    ]
+  }
+};
+
+const DECKS = {
+  ch1: CHAPTERS[1].concepts,
+  ch2: CHAPTERS[2].concepts,
+  ch5: CHAPTERS[5].concepts,
+  ions: [
+    { t:"Acetate", d:"C₂H₃O₂⁻ · charge 1−" },
+    { t:"Ammonium", d:"NH₄⁺ · charge 1+ (only positive polyatomic ion)" },
+    { t:"Carbonate", d:"CO₃²⁻ · charge 2−" },
+    { t:"Hydroxide", d:"OH⁻ · charge 1− (critical in acid/base chemistry and nursing)" },
+    { t:"Phosphate", d:"PO₄³⁻ · charge 3− (found in DNA, ATP, and bone mineral)" },
+    { t:"Sulfate", d:"SO₄²⁻ · charge 2−" },
+    { t:"Nitrate", d:"NO₃⁻ · charge 1−" },
+    { t:"Permanganate", d:"MnO₄⁻ · charge 1− (used as antiseptic in clinical settings)" },
+    { t:"Chlorate", d:"ClO₃⁻ · charge 1−" },
+    { t:"Chromate", d:"CrO₄²⁻ · charge 2−" },
+  ],
+  micro: [
+    { t:"Gram-positive bacteria", d:"Thick peptidoglycan cell wall. Stain purple in Gram stain. e.g. Staphylococcus, Streptococcus." },
+    { t:"Gram-negative bacteria", d:"Thin peptidoglycan + outer lipopolysaccharide membrane. Stain pink/red. e.g. E. coli, Salmonella." },
+    { t:"Peptidoglycan", d:"Polymer forming bacterial cell walls. Thicker in gram-positive. Target of penicillin-class antibiotics." },
+    { t:"Binary fission", d:"Asexual bacterial reproduction. One cell divides into two identical daughter cells." },
+    { t:"Endospore", d:"Dormant, tough structure made by some bacteria to survive extreme conditions. e.g. Bacillus anthracis." },
+    { t:"Innate immunity", d:"Non-specific first-line defense. Physical barriers, inflammation, phagocytes. Responds within minutes." },
+  ],
+  nursing: [
+    { t:"Aseptic technique", d:"Procedures to prevent contamination by pathogens. Critical in wound care, IV placement, and surgery." },
+    { t:"Standard precautions", d:"CDC infection control practices applied to ALL patients regardless of diagnosis. Includes hand hygiene + PPE." },
+    { t:"Chain of infection", d:"6 links: agent → reservoir → exit portal → transmission → entry portal → susceptible host." },
+    { t:"HAI (nosocomial infection)", d:"Healthcare-acquired infection. Acquired during hospital stay. Major nursing responsibility to prevent." },
+    { t:"MRSA", d:"Methicillin-resistant Staphylococcus aureus. Resistant to most beta-lactams. Requires contact precautions." },
+    { t:"Sepsis", d:"Life-threatening immune overreaction to infection. Requires immediate antibiotics + IV fluids. Nursing emergency." },
+  ]
+};
+
+// ── STATE ─────────────────────────────────────────────────────────────────
+let deck = [], cardIdx = 0, knownCount = 0, selectedQuizMode = 'mc', selectedExamMode = 'midterm';
+
+// ── NAVIGATION ────────────────────────────────────────────────────────────
+function showPage(name, triggerEl) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  const page = document.getElementById('page-' + name);
+  if (page) page.classList.add('active');
+
+  document.querySelectorAll('.nav-link').forEach(n => n.classList.remove('active'));
+  document.querySelectorAll('.mobile-nav-btn').forEach(n => n.classList.remove('active'));
+
+  if (triggerEl) {
+    if (triggerEl.classList.contains('nav-link')) triggerEl.classList.add('active');
+    else if (triggerEl.classList.contains('mobile-nav-btn')) triggerEl.classList.add('active');
+  }
+
+  if (name === 'flashcards') loadDeck();
+  if (name === 'chem100') showChap(1, document.querySelector('.ch-tab'));
+}
+
+// ── FLASH CARDS ───────────────────────────────────────────────────────────
+function loadDeck() {
+  const key = document.getElementById('fc-deck').value;
+  deck = [...DECKS[key]];
+  cardIdx = 0; knownCount = 0;
+  const card = document.getElementById('fc-card');
+  if (card.classList.contains('flipped')) card.classList.remove('flipped');
+  renderCard();
+}
+
+function renderCard() {
+  if (cardIdx >= deck.length) {
+    document.getElementById('fc-front-text').textContent = '🎉 Deck complete!';
+    document.getElementById('fc-back-text').textContent = knownCount + ' of ' + deck.length + ' known';
+    document.getElementById('fc-counter-disp').textContent = 'Done!';
+    document.getElementById('fc-pct-disp').textContent = '100% complete';
+    document.getElementById('fc-bar').style.width = '100%';
+    return;
+  }
+  document.getElementById('fc-front-text').textContent = deck[cardIdx].t;
+  document.getElementById('fc-back-text').textContent = deck[cardIdx].d;
+  document.getElementById('fc-counter-disp').textContent = 'Card ' + (cardIdx+1) + ' of ' + deck.length;
+  document.getElementById('fc-pct-disp').textContent = Math.round(cardIdx/deck.length*100) + '% complete';
+  document.getElementById('fc-bar').style.width = Math.round(cardIdx/deck.length*100) + '%';
+  document.getElementById('fc-known-disp').textContent = 'Known: ' + knownCount;
+  const card = document.getElementById('fc-card');
+  if (card.classList.contains('flipped')) card.classList.remove('flipped');
+}
+
+function flipCard() {
+  document.getElementById('fc-card').classList.toggle('flipped');
+}
+
+function markCard(known) {
+  if (known) knownCount++;
+  cardIdx++;
+  renderCard();
+}
+
+function addCustomCard() {
+  const t = document.getElementById('custom-term').value.trim();
+  const d = document.getElementById('custom-def').value.trim();
+  if (!t || !d) return;
+  const key = document.getElementById('fc-deck').value;
+  DECKS[key].push({t, d});
+  deck.push({t, d});
+  document.getElementById('custom-term').value = '';
+  document.getElementById('custom-def').value = '';
+  alert('Card added to current deck! You\'ll see it when you reach it.');
+}
+
+// ── CHAPTER DISPLAY ───────────────────────────────────────────────────────
+function showChap(num, btn) {
+  document.querySelectorAll('.ch-tab').forEach(t => t.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  const ch = CHAPTERS[num];
+  if (!ch) return;
+  document.getElementById('chap-content').innerHTML = `
+    <div class="panel">
+      <div class="panel-title">${ch.title}</div>
+      <div class="concept-grid" style="margin-bottom:1rem;">
+        ${ch.concepts.map(c => `<div class="concept-card"><div class="concept-term">${c.t}</div><div class="concept-def">${c.d}</div></div>`).join('')}
+      </div>
+      <div style="background:var(--bg);border-radius:var(--radius-sm);padding:12px 14px;font-size:12px;color:var(--text2);line-height:1.7;border-left:3px solid var(--teal);">
+        📖 <em>${ch.note}</em>
+      </div>
+    </div>`;
+}
+
+// ── QUIZ MODE ─────────────────────────────────────────────────────────────
+function selectMode(m, el) {
+  selectedQuizMode = m;
+  document.querySelectorAll('.mode-card[id^="qm-"]').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+function selectExamMode(m, el) {
+  selectedExamMode = m;
+  document.querySelectorAll('.mode-card[id^="em-"]').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+// ── CLAUDE API ────────────────────────────────────────────────────────────
+const SYS = `You are a personalized AI tutor for Ella Blue, a pre-nursing student at Pierce College in Washington State who has been directly admitted to Saint Martin's University BSN nursing program in Lacey, WA. Her current courses include CHEM 100 (Foundations of College Chemistry, 15th ed. by Hein/Arena) and Microbiology 260. Her CHEM 100 notes cover: Ch.1 classifying matter (pure substances, mixtures, homogeneous/heterogeneous), Ch.2 measurement and significant figures (sig figs, scientific notation, unit conversion), Ch.5 atomic theory (Dalton, Thomson, Rutherford, subatomic particles, isotopes, atomic mass), polyatomic ions, Aufbau principle, and a case study on propylene glycol (C₃H₈O₂) in ultrasound gel. Be concise, accurate, and connect concepts to nursing clinical relevance when helpful. Use examples from her notes when possible.`;
+
+async function callClaude(prompt) {
+  const res = await fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: {
+          "Content-Type": "application/json",
+          "x-api-key": "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",
+          "anthropic-version": "2023-06-01",
+          "anthropic-dangerous-direct-browser-access": "true"
+        },
+    body: JSON.stringify({
+      model: 'claude-sonnet-4-20250514',
+      max_tokens: 1000,
+      system: SYS,
+      messages: [{ role: 'user', content: prompt }]
+    })
+  });
+  const data = await res.json();
+  return data.content?.[0]?.text || 'No response received.';
+}
+
+async function aiCall(prompt, loadingId, outputId) {
+  const loading = document.getElementById(loadingId);
+  const output = document.getElementById(outputId);
+  loading.style.display = 'flex';
+  output.style.display = 'none';
+  try {
+    const ans = await callClaude(prompt);
+    output.textContent = ans;
+    output.style.display = 'block';
+  } catch(e) {
+    output.textContent = 'Connection error: ' + e.message + '\n\nMake sure you have internet access.';
+    output.style.display = 'block';
+  }
+  loading.style.display = 'none';
+}
+
+function dashAsk() {
+  const q = document.getElementById('dash-q').value.trim();
+  if (!q) return;
+  aiCall(q, 'dash-loading', 'dash-out');
+}
+
+function mainAsk() {
+  const q = document.getElementById('main-q').value.trim();
+  if (!q) return;
+  aiCall(q, 'main-loading', 'main-out');
+}
+
+function quickQ(q) {
+  showPage('aiask', null);
+  document.querySelectorAll('.nav-link').forEach(n => n.classList.remove('active'));
+  document.getElementById('main-q').value = q;
+  aiCall(q, 'main-loading', 'main-out');
+}
+
+function processNotes() {
+  const notes = document.getElementById('notes-text').value.trim();
+  const title = document.getElementById('note-title').value.trim() || 'these lecture notes';
+  const course = document.getElementById('note-course').value;
+  if (!notes) { alert('Please paste or type some notes first.'); return; }
+  aiCall(`Summarize and organize the following ${course} notes about "${title}". Extract: KEY CONCEPTS with definitions, important formulas or rules, clinical nursing applications if relevant.\n\nNotes:\n${notes}`, 'notes-loading', 'notes-out');
+}
+
+function genCardsFromNotes() {
+  const notes = document.getElementById('notes-text').value.trim();
+  if (!notes) { alert('Please paste notes first.'); return; }
+  aiCall(`Create 8 flash card term/definition pairs from these notes for a nursing student. Format each as:\nTERM: [term]\nDEFINITION: [concise definition]\n\nNotes:\n${notes}`, 'notes-loading', 'notes-out');
+}
+
+function genQuizFromNotes() {
+  const notes = document.getElementById('notes-text').value.trim();
+  if (!notes) { alert('Please paste notes first.'); return; }
+  aiCall(`Create 5 multiple choice questions (4 options each, labeled A B C D) from these notes for a nursing student. Include the correct answer after each question.\n\nNotes:\n${notes}`, 'notes-loading', 'notes-out');
+}
+
+async function genAICards() {
+  const key = document.getElementById('fc-deck').value;
+  const names = { ch1:'CHEM 100 Chapter 1 — Classifying Matter', ch2:'CHEM 100 Chapter 2 — Measurement & Sig Figs', ch5:'CHEM 100 Chapter 5 — Atomic Theory', ions:'Polyatomic ions for CHEM 100', micro:'Microbiology 260 key terms', nursing:'Nursing clinical terminology' };
+  const ans = await callClaude(`Create 6 new flash card pairs for Ella studying: ${names[key]}. Make them different from the basics she already knows. Format:\nTERM: ...\nDEFINITION: ...\n(6 pairs total)`);
+  alert('New flash cards generated!\n\nUse the "Add card" section to add them manually:\n\n' + ans);
+}
+
+async function startQuiz() {
+  const topic = document.getElementById('quiz-topic').value;
+  const count = document.getElementById('quiz-count').value;
+  const diff = document.getElementById('quiz-diff').value;
+  const modeMap = { mc:'multiple choice (4 options A B C D)', tf:'true/false', calc:'calculation problems', short:'short answer' };
+  document.getElementById('quiz-setup').style.display = 'none';
+  document.getElementById('quiz-running').style.display = 'block';
+  document.getElementById('quiz-gen-loading').style.display = 'flex';
+  document.getElementById('quiz-output').innerHTML = '';
+  const prompt = `Create a ${count}-question ${modeMap[selectedQuizMode]} quiz on: ${topic}. Difficulty: ${diff}. Include nursing/clinical connections where relevant. For each question provide the correct answer at the end. Number each question clearly.`;
+  try {
+    const ans = await callClaude(prompt);
+    document.getElementById('quiz-gen-loading').style.display = 'none';
+    document.getElementById('quiz-output').innerHTML = `<div class="panel"><div class="panel-title">Quiz — ${topic}</div><div class="ai-output" style="display:block;">${ans.replace(/\n/g,'<br>')}</div><br><div style="display:flex;gap:8px;"><button class="btn-primary" onclick="document.getElementById('quiz-setup').style.display='block';document.getElementById('quiz-running').style.display='none'">← New quiz</button></div></div>`;
+  } catch(e) {
+    document.getElementById('quiz-gen-loading').style.display = 'none';
+    document.getElementById('quiz-output').innerHTML = `<div class="panel"><div class="ai-output" style="display:block;">Error: ${e.message}</div></div>`;
+  }
+}
+
+async function startExam() {
+  const focus = document.getElementById('exam-focus').value;
+  const nursing = document.getElementById('exam-nursing').value;
+  const modeNames = { midterm:'25-question midterm exam', final:'50-question comprehensive final exam', nclex:'NCLEX-style critical thinking exam', guide:'concise study guide' };
+  const prompt = `Create a ${modeNames[selectedExamMode]} covering: ${focus}. ${nursing.includes('Yes') ? 'Include realistic clinical nursing scenarios.' : ''} Use a mix of question types. Include a complete answer key at the end.`;
+  aiCall(prompt, 'exam-loading', 'exam-out');
+}
+
+function makeStudyGuide() {
+  const focus = document.getElementById('exam-focus').value;
+  aiCall(`Create a concise, exam-ready study guide for Ella on: ${focus}. Include: KEY CONCEPTS, must-know definitions, common exam traps, calculation strategies, and nursing clinical connections. Format clearly with headers.`, 'exam-loading', 'exam-out');
+}
+
+function getStudyPlan() {
+  const q = document.getElementById('plan-q').value.trim();
+  if (!q) { alert('Describe your situation first.'); return; }
+  aiCall(`Create a personalized daily study plan for Ella: ${q}. She is a pre-nursing student at Pierce College heading to Saint Martin's University BSN program. Make it specific, realistic, and include daily tasks with time estimates.`, 'plan-loading', 'plan-out');
+}
+
+function handleUpload(e) {
+  const files = Array.from(e.target.files);
+  if (!files.length) return;
+  const names = files.map(f => f.name).join(', ');
+  document.getElementById('notes-out') && (document.getElementById('notes-out').textContent = `Files selected: ${names}\n\nTo process: copy text content and paste in the text area, then click "Summarize with AI".`);
+  document.getElementById('notes-out') && (document.getElementById('notes-out').style.display = 'block');
+  showPage('notes', null);
+}
+
+// ── INIT ──────────────────────────────────────────────────────────────────
+loadDeck();
+showChap(1, null);
+</script>
+</body>
+</html>
