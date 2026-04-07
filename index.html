@@ -184,22 +184,6 @@ textarea:focus{border-color:var(--teal);}
 .pathway-step{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid var(--border);}
 .pathway-step:last-child{border-bottom:none;}
 .step-icon{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;margin-top:1px;}
-/* PATHWAY ACCORDION */
-.pathway-group{border-bottom:1px solid var(--border);}
-.pathway-group:last-child{border-bottom:none;}
-.pathway-group-header{display:flex;align-items:center;gap:12px;padding:12px 0;cursor:pointer;user-select:none;}
-.pathway-group-header:hover{opacity:.8;}
-.pathway-chevron{font-size:11px;color:var(--text3);margin-left:auto;transition:transform .2s;display:inline-block;}
-.pathway-chevron.open{transform:rotate(90deg);}
-.pathway-group-body{display:none;padding-left:46px;padding-bottom:8px;}
-.pathway-group-body.open{display:block;}
-.pathway-course-row{font-size:12px;color:var(--text2);padding:4px 0;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:6px;}
-.pathway-course-row:last-child{border-bottom:none;}
-/* TRANSCRIPT UPLOAD */
-.transcript-upload-area{border:2px dashed var(--border2);border-radius:var(--radius);padding:1.25rem;text-align:center;cursor:pointer;transition:all .2s;margin-top:.75rem;}
-.transcript-upload-area:hover{border-color:var(--teal);background:var(--teal-light);}
-.transcript-upload-area.has-file{border-color:var(--teal);background:var(--teal-light);border-style:solid;}
-.transcript-file-name{font-size:12px;color:var(--teal-mid);margin-top:4px;font-weight:500;}
 
 /* DRUG CARDS */
 .drug-field{display:flex;gap:10px;padding:7px 0;border-bottom:1px solid var(--border);font-size:13px;}
@@ -244,26 +228,8 @@ textarea:focus{border-color:var(--teal);}
 .ai-user .ai-bubble{background:var(--teal);color:white;align-self:flex-end;border-bottom-right-radius:3px;}
 .ai-typing .ai-bubble{background:var(--surface2);color:var(--text3);font-style:italic;}
 @media(max-width:640px){.sidebar{display:none;}.main{margin-left:0;padding:1rem;}.grid4,.grid2{grid-template-columns:1fr;}}
-/* TRANSCRIPT PAGE */
-.transcript-drop-zone{border:2px dashed var(--border2);border-radius:var(--radius);padding:2rem;text-align:center;cursor:pointer;transition:all .2s;background:var(--surface);}
-.transcript-drop-zone:hover{border-color:var(--teal);background:var(--teal-light);}
-.transcript-drop-zone.has-file{border-color:var(--teal);border-style:solid;background:var(--teal-light);}
-.transcript-drop-zone.dragging{border-color:var(--teal);background:var(--teal-light);transform:scale(1.01);}
-.grad-banner{background:linear-gradient(135deg,#1D9E75,#085041);border-radius:var(--radius);padding:1.25rem 1.5rem;color:white;margin-bottom:1.25rem;display:flex;align-items:center;gap:1rem;}
-.grade-table{width:100%;border-collapse:collapse;font-size:13px;}
-.grade-table th{background:var(--surface2);padding:8px 12px;text-align:left;font-weight:500;color:var(--text2);border-bottom:1px solid var(--border);font-size:11px;text-transform:uppercase;letter-spacing:.5px;}
-.grade-table td{padding:8px 12px;border-bottom:1px solid var(--border);color:var(--text);}
-.grade-table tr:last-child td{border-bottom:none;}
-.grade-table tr:hover td{background:var(--bg);}
-.grade-a{color:#2D7A1F;font-weight:600;}
-.grade-b{color:#854F0B;font-weight:600;}
-.grade-c{color:#993C1D;font-weight:600;}
-.grade-d,.grade-f{color:var(--coral);font-weight:600;}
-.gpa-display{font-family:'Playfair Display',serif;font-size:42px;font-weight:500;color:var(--teal);line-height:1;}
-.transcript-preview{max-width:100%;border-radius:var(--radius-sm);border:1px solid var(--border);margin-top:.75rem;}
-.ai-reading-status{display:none;align-items:center;gap:10px;padding:10px 14px;background:var(--teal-light);border-radius:var(--radius-sm);font-size:13px;color:var(--teal-dark);margin-top:.75rem;}
-@keyframes spin{to{transform:rotate(360deg)}}
-.spinner{width:16px;height:16px;border:2px solid var(--teal);border-top-color:transparent;border-radius:50%;animation:spin .7s linear infinite;flex-shrink:0;}
+::-webkit-scrollbar{width:5px;}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:10px;}
 </style>
 </head>
 <body>
@@ -288,12 +254,11 @@ textarea:focus{border-color:var(--teal);}
   <a class="nav-link" onclick="go('aitutor',this)"><span class="nav-icon">🤖</span>AI Tutor</a>
   <a class="nav-link" onclick="go('timer',this)"><span class="nav-icon">⏱️</span>Study timer</a>
   <a class="nav-link" onclick="go('progress',this)"><span class="nav-icon">📈</span>Progress</a>
-  <a class="nav-link" onclick="go('transcript',this)"><span class="nav-icon">📄</span>Transcript <span id="transcript-nav-badge" style="display:none;margin-left:auto;font-size:9px;background:var(--teal);color:white;padding:1px 5px;border-radius:10px;">✓</span></a>
   <a class="nav-link" onclick="openReset()"><span class="nav-icon">🔄</span>Reset progress</a>
   <a class="nav-link" onclick="openHelp()"><span class="nav-icon">❓</span>Help &amp; guide</a>
   <div class="sec-label">Courses</div>
   <div style="padding:0 .75rem;" id="course-list"></div>
-  <div class="sidebar-footer">Ella Blue · Bethel High School '26<br>Pierce College → Saint Martin's BSN</div>
+  <div class="sidebar-footer">Ella Blue · Pierce College<br>Saint Martin's University BSN</div>
 </aside>
 
 <!-- MAIN -->
@@ -301,7 +266,7 @@ textarea:focus{border-color:var(--teal);}
 
 <!-- DASHBOARD -->
 <div id="pg-dashboard" class="page active">
-  <div class="page-header"><h2>Good morning, Ella 👋</h2><p>Pierce College · Biology 242 · Spring 2026 — Final Semester 🎓 · Running Start @ Bethel High School</p></div>
+  <div class="page-header"><h2>Good morning, Ella 👋</h2><p>Pierce College · CHEM 100 &amp; A&P II · Spring 2026</p></div>
   <div class="grid4">
     <div class="card"><div class="card-title">Flash cards mastered</div><div class="card-big" id="d-mastered">0</div><div class="card-sub" id="d-mastered-sub">Keep studying!</div></div>
     <div class="card"><div class="card-title">Quiz avg score</div><div class="card-big" id="d-avg" style="color:var(--teal)">—</div><div class="card-sub" id="d-avg-sub">No quizzes yet</div></div>
@@ -543,29 +508,12 @@ textarea:focus{border-color:var(--teal);}
 <div id="pg-notes" class="page">
   <div class="page-header"><h2>My notes</h2><p>Type or paste notes — they save automatically in your browser</p></div>
   <div class="panel">
-    <div style="display:flex;gap:8px;margin-bottom:8px;flex-wrap:wrap;">
-      <div style="flex:1;min-width:160px;">
-        <div style="font-size:11px;color:var(--text3);margin-bottom:3px;text-transform:uppercase;letter-spacing:.5px;">Course</div>
-        <input type="text" id="note-course" list="note-course-list" placeholder="Type or pick a course..." style="width:100%;">
-        <datalist id="note-course-list">
-          <option value="Biology 242">
-          <option value="CHEM 100">
-          <option value="CHEM 131">
-          <option value="Microbiology 260">
-          <option value="A&P I">
-          <option value="A&P II">
-          <option value="NUTR 101">
-          <option value="PSYC 100">
-          <option value="Kinesiology">
-          <option value="Math/Stats">
-          <option value="English/Writing">
-          <option value="Nursing Fundamentals">
-        </datalist>
-      </div>
-      <div style="flex:1;min-width:160px;">
-        <div style="font-size:11px;color:var(--text3);margin-bottom:3px;text-transform:uppercase;letter-spacing:.5px;">Lecture title</div>
-        <input type="text" id="note-topic" placeholder="e.g. Chapter 4 — Cell Division" style="width:100%;">
-      </div>
+    <div style="display:flex;gap:8px;margin-bottom:1rem;flex-wrap:wrap;">
+      <select id="note-course" style="flex:1;min-width:160px;">
+        <option>CHEM 100</option><option>Microbiology 260</option><option>A&P I</option><option>A&P II</option>
+        <option>Biology</option><option>Nutrition</option><option>Psychology</option><option>Kinesiology</option>
+      </select>
+      <input type="text" id="note-topic" placeholder="Topic / lecture title" style="flex:1;min-width:160px;">
     </div>
     <textarea id="note-body" placeholder="Type or paste your notes here..." style="min-height:180px;"></textarea>
     <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap;">
@@ -575,15 +523,7 @@ textarea:focus{border-color:var(--teal);}
     <p id="note-save-msg" style="font-size:12px;color:var(--teal-mid);margin-top:6px;display:none;">✓ Note saved!</p>
   </div>
   <div class="panel">
-    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:.75rem;">
-      <div class="panel-title" style="margin-bottom:0;">📚 Saved notes</div>
-      <div style="display:flex;gap:6px;align-items:center;">
-        <input type="text" id="note-search" placeholder="Search notes..." style="font-size:12px;padding:5px 9px;width:160px;" oninput="renderNotes()">
-        <select id="note-filter-course" style="font-size:12px;padding:5px 8px;" onchange="renderNotes()">
-          <option value="">All courses</option>
-        </select>
-      </div>
-    </div>
+    <div class="panel-title">📚 Saved notes</div>
     <div id="saved-notes-list"><p style="font-size:13px;color:var(--text3);">No notes saved yet.</p></div>
   </div>
 </div>
@@ -1030,7 +970,7 @@ textarea:focus{border-color:var(--teal);}
       <button class="btn-primary" onclick="sendAI()" style="align-self:flex-end;padding:10px 18px;background:var(--teal);color:white;border:none;border-radius:var(--radius-sm);cursor:pointer;font-size:13px;font-family:'DM Sans',sans-serif;white-space:nowrap;">Send</button>
     </div>
     <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px;">
-      <button class="btn-outline" style="font-size:11px;padding:4px 10px;" onclick="quickAsk('Quiz me on Biology 242 content from Tortora & Derrickson 16th edition with 5 questions and model answers')">Quiz: Bio 242</button>
+      <button class="btn-outline" style="font-size:11px;padding:4px 10px;" onclick="quickAsk('Quiz me on the A&P II endocrine system with 5 written questions and model answers')">Quiz: Endocrine</button>
       <button class="btn-outline" style="font-size:11px;padding:4px 10px;" onclick="quickAsk('Explain all electrolyte imbalances using the mnemonics from Nursing Fundamentals')">Electrolytes</button>
       <button class="btn-outline" style="font-size:11px;padding:4px 10px;" onclick="quickAsk('Give me 5 NCLEX-style clinical scenario questions with rationale')">NCLEX practice</button>
       <button class="btn-outline" style="font-size:11px;padding:4px 10px;" onclick="quickAsk('What lab values must I memorize for nursing school and what are their normal ranges?')">Lab values</button>
@@ -1092,86 +1032,6 @@ textarea:focus{border-color:var(--teal);}
   <div class="panel">
     <div class="panel-title">❌ Questions to review</div>
     <div id="missed-list"><p style="font-size:13px;color:var(--text3);">No missed questions yet.</p></div>
-  </div>
-</div>
-
-<!-- TRANSCRIPT PAGE -->
-<div id="pg-transcript" class="page">
-  <div class="page-header"><h2>Official Transcript</h2><p>Upload Ella's transcript — Claude will read it and extract all grades automatically</p></div>
-
-  <!-- Graduation banner -->
-  <div class="grad-banner">
-    <div style="font-size:2rem;">🎓</div>
-    <div>
-      <div style="font-family:'Playfair Display',serif;font-size:17px;font-weight:500;">Ella Blue — Dual Graduation 2026 🎓</div>
-      <div style="font-size:12px;opacity:.85;margin-top:2px;">Bethel High School · June 8 &nbsp;|&nbsp; Pierce College · June 18 &nbsp;|&nbsp; Saint Martin's University BSN · Fall 2026</div>
-    </div>
-    <div style="margin-left:auto;text-align:right;">
-      <div style="font-size:11px;opacity:.7;">Graduating</div>
-      <div style="font-family:'Playfair Display',serif;font-size:22px;font-weight:500;" id="grad-countdown">—</div>
-    </div>
-  </div>
-
-  <div class="grid2">
-    <!-- Upload panel -->
-    <div class="panel">
-      <div class="panel-title">📤 Upload Transcript</div>
-      <p style="font-size:12px;color:var(--text2);margin-bottom:.75rem;line-height:1.6;">Upload a PDF or photo (JPG/PNG). You can take a picture with your phone — multiple pages supported. Claude will read the transcript and fill in the grade table automatically.</p>
-
-      <div class="transcript-drop-zone" id="tr-drop-zone"
-        onclick="document.getElementById('tr-file-input').click()"
-        ondragover="trDragOver(event)" ondragleave="trDragLeave(event)" ondrop="trDrop(event)">
-        <input type="file" id="tr-file-input" accept=".pdf,.jpg,.jpeg,.png" multiple style="display:none;" onchange="handleTranscriptUpload(this.files)">
-        <div id="tr-upload-prompt">
-          <div style="font-size:2.5rem;margin-bottom:.5rem;">📄</div>
-          <div style="font-size:13px;font-weight:500;color:var(--text2);">Click or drag transcript here</div>
-          <div style="font-size:11px;color:var(--text3);margin-top:4px;">PDF · JPG · PNG · Multiple pages OK</div>
-          <div style="font-size:11px;color:var(--text3);margin-top:2px;">📱 On phone: tap to open camera or photos</div>
-        </div>
-        <div id="tr-upload-done" style="display:none;">
-          <div style="font-size:2rem;margin-bottom:.5rem;">✅</div>
-          <div style="font-size:13px;font-weight:500;color:var(--teal-mid);" id="tr-file-names"></div>
-          <div style="font-size:11px;color:var(--teal-mid);margin-top:4px;">Tap to replace</div>
-        </div>
-      </div>
-
-      <!-- AI reading status -->
-      <div class="ai-reading-status" id="tr-ai-status">
-        <div class="spinner"></div>
-        <span id="tr-ai-status-msg">Claude is reading your transcript...</span>
-      </div>
-
-      <!-- Preview thumbnails -->
-      <div id="tr-previews" style="display:flex;gap:8px;flex-wrap:wrap;margin-top:.75rem;"></div>
-
-      <div style="display:flex;gap:8px;margin-top:.875rem;flex-wrap:wrap;">
-        <button class="btn" id="tr-read-btn" onclick="readTranscriptWithAI()" style="display:none;">🤖 Read with Claude AI</button>
-        <button class="btn-out" onclick="clearTranscript()" id="tr-clear-btn" style="display:none;">Clear</button>
-      </div>
-      <p style="font-size:11px;color:var(--text3);margin-top:8px;">Claude will extract course names, grades, and credits. You can edit anything after.</p>
-    </div>
-
-    <!-- GPA summary panel -->
-    <div class="panel" style="text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.5rem;">
-      <div style="font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;">Cumulative GPA</div>
-      <div class="gpa-display" id="gpa-display">—</div>
-      <div style="font-size:12px;color:var(--text2);" id="gpa-sub">No grades entered yet</div>
-      <div style="margin-top:1rem;display:flex;gap:1.5rem;flex-wrap:wrap;justify-content:center;">
-        <div style="text-align:center;"><div style="font-size:20px;font-weight:600;color:var(--teal);" id="gpa-total-credits">0</div><div style="font-size:11px;color:var(--text3);">Total credits</div></div>
-        <div style="text-align:center;"><div style="font-size:20px;font-weight:600;color:var(--teal);" id="gpa-courses-count">0</div><div style="font-size:11px;color:var(--text3);">Courses</div></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Grade table -->
-  <div class="panel">
-    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:.875rem;">
-      <div class="panel-title" style="margin-bottom:0;">📊 Course Grades</div>
-      <button class="btn-out" style="font-size:12px;" onclick="addGradeRow()">+ Add course manually</button>
-    </div>
-    <div id="grade-table-wrap">
-      <p style="font-size:13px;color:var(--text3);">No grades yet — upload your transcript or add courses manually.</p>
-    </div>
   </div>
 </div>
 
@@ -1252,9 +1112,9 @@ textarea:focus{border-color:var(--teal);}
 // AI TUTOR — requires Cloudflare Worker proxy
 // Replace the URL below with your Worker URL after setup
 // ═══════════════════════════════════════════════════════════════
-var AI_WORKER_URL = 'https://ella-tutor.chester-blue.workers.dev';
+var AI_WORKER_URL = 'https://YOUR-WORKER-NAME.YOUR-SUBDOMAIN.workers.dev';
 var aiHistory = [];
-var AI_SYS = 'You are Ella Blue\'s personal nursing AI tutor. She is a Running Start student \u2014 a High School Senior at Bethel High School in Washington State \u2014 who has been taking college courses at Pierce College simultaneously. She is in her FINAL semester (Spring 2026) and is directly admitted to Saint Martin\'s University BSN program in Lacey, WA starting Fall 2026. She is a cheerleader.\n\nGRADUATION DATES:\n- Bethel High School (BHS): June 8, 2026\n- Pierce College: June 18, 2026\n- Saint Martin\'s University BSN program begins: Fall 2026\n\nIMPORTANT CONTEXT: Because she is a Running Start student, her transcripts include BOTH high school courses AND college-level courses taken at Pierce College. Her college courses are the ones that count toward her nursing prerequisites.\n\nCURRENT ACTIVE COURSE: Biology 242 (her last prereq course this semester at Pierce College).\n\nPRIMARY TEXTBOOK for Biology 242: "Principles of Anatomy & Physiology" by Gerard J. Tortora and Bryan H. Derrickson, 16th Edition, ISBN 978-1-119-66279-2 (Wiley). When teaching A&P content, align your explanations, terminology, chapter organization, figures, and learning objectives to THIS specific edition. Reference chapter names and numbers from Tortora & Derrickson 16e when relevant. Use the same vocabulary and framework the book uses so it directly reinforces her reading.\n\nCOMPLETED COLLEGE COURSES (Pierce College): CHEM 100, CHEM 131, A&P I, A&P II, Biology (epigenetics/DNA/peptides), NUTR 101, PSYC 100 (full course), KINS 110/210, Math/Stats, English/Writing.\n\nNURSING FUNDAMENTALS knowledge base: medical terms, ADPIE nursing process, scope of practice, delegation, prioritization/ABCs/Maslow, vital sign normal ranges, head-to-toe assessment, lab values with memory tricks, electrolyte imbalances with mnemonics FRIED SALT/MURDER/6Ls/CATS GO NUMB/BACKME, medication administration 6 rights, injection routes, dosage calculation formulas, IV fluid types hypertonic/isotonic/hypotonic, blood transfusions and reactions, pressure injury staging Braden scale, patient positioning, infection control precautions Mrs.We/MTV/PIMP, donning/doffing order, hand hygiene moments, safety RACE/PASS/restraints, nutrition basics macros/micros, pain management OPQRST/WHO ladder, therapeutic communication, thermoregulation, perioperative care.\n\nTeach using her mnemonics. For NCLEX questions give 4 options with detailed rationale. Be encouraging \u2014 she is a high school senior finishing two graduations and heading straight into nursing school \u2014 that is a huge accomplishment! Connect nursing to her prereq science background when helpful. When she pastes in her own lecture notes or textbook passages, use that material as the primary source and quiz/teach from it directly.';
+var AI_SYS = 'You are Ella Blue\'s personal nursing AI tutor. She is a pre-nursing student at Pierce College, Washington State, directly admitted to Saint Martin\'s University BSN program in Lacey, WA. She is a cheerleader. Her completed courses include CHEM 100, CHEM 131, A&P I, A&P II Unit 1 (currently active — endocrine system and blood), Biology (epigenetics/DNA/peptides), NUTR 101, PSYC 100 (full course), KINS 110/210, Math/Stats, and the Nursing Fundamentals Study Notes guide (medical terms, ADPIE nursing process, scope of practice, delegation, prioritization/ABCs/Maslow, vital sign normal ranges, head-to-toe assessment, lab values with memory tricks, electrolyte imbalances with mnemonics FRIED SALT/MURDER/6Ls/CATS GO NUMB/BACKME, medication administration 6 rights, injection routes, dosage calculation formulas, IV fluid types hypertonic/isotonic/hypotonic, blood transfusions and reactions, pressure injury staging Braden scale, patient positioning, infection control precautions Mrs.We/MTV/PIMP, donning/doffing order, hand hygiene moments, safety RACE/PASS/restraints, nutrition basics macros/micros, pain management OPQRST/WHO ladder, therapeutic communication, thermoregulation, perioperative care). Teach using her mnemonics. For NCLEX questions give 4 options with detailed rationale. Be encouraging. Connect nursing to her prereq science background when helpful.';
 
 async function sendAI() {
   var inp = document.getElementById('ai-input');
@@ -1355,7 +1215,7 @@ var state = {
   notes: LS.get('notes',[]),
   drugs: LS.get('drugs',[]),
   courses: LS.get('courses',[
-    {id:'bio242',name:'Biology 242',status:'active'},
+    {id:'ap2active',name:'A&P II',status:'active'},
     {id:'chem100',name:'CHEM 100',status:'done'},
     {id:'chem131',name:'CHEM 131',status:'done'},
     {id:'micro260',name:'Micro 260',status:'waitlisted'},
@@ -1368,9 +1228,7 @@ var state = {
     {id:'math',name:'Math/Stats',status:'done'},
     {id:'eng',name:'English/Writing',status:'done'}
   ]),
-  customCards: LS.get('customCards',[]),
-  transcriptName: LS.get('transcriptName',''),
-  transcriptGrades: LS.get('transcriptGrades',[])
+  customCards: LS.get('customCards',[])
 };
 
 function save(){
@@ -1384,8 +1242,6 @@ function save(){
   LS.set('drugs',state.drugs);
   LS.set('courses',state.courses);
   LS.set('customCards',state.customCards);
-  LS.set('transcriptName',state.transcriptName);
-  LS.set('transcriptGrades',state.transcriptGrades);
 }
 
 // ═══════════════════════════════════════════════════════════════
@@ -1833,141 +1689,21 @@ var STATUS_CFG = {
 function renderPathway(){
   var el = document.getElementById('pathway-content');
   if(!el) return;
-  var done    = state.courses.filter(function(c){return c.status==='done';});
-  var active  = state.courses.filter(function(c){return c.status==='active';});
+  var done = state.courses.filter(function(c){return c.status==='done';});
+  var active = state.courses.filter(function(c){return c.status==='active';});
   var waiting = state.courses.filter(function(c){return c.status==='waitlisted';});
   var planned = state.courses.filter(function(c){return c.status==='planned';});
-  var selfst  = state.courses.filter(function(c){return c.status==='self';});
+  var self = state.courses.filter(function(c){return c.status==='self';});
   var html = '';
-
-  // Helper: build an expandable group
-  function group(id, icon, iconBg, title, badge, badgeClass, courses, subLabel, extraBody){
-    if(!courses.length && !extraBody) return '';
-    var courseRows = courses.map(function(c){
-      return '<div class="pathway-course-row"><span>'+icon+'</span>'+c.name+'</div>';
-    }).join('');
-    return '<div class="pathway-group">'+
-      '<div class="pathway-group-header" onclick="togglePathwayGroup(\''+id+'\')">'+
-        '<div class="step-icon" style="background:'+iconBg+';">'+icon+'</div>'+
-        '<div style="flex:1;">'+
-          '<strong style="font-size:13px;font-weight:500;">'+title+'</strong>'+
-          (courses.length ? '<div style="font-size:11px;color:var(--text3);">'+courses.length+' course'+(courses.length>1?'s':'')+' · tap to expand</div>' : '<div style="font-size:11px;color:var(--text3);">'+subLabel+'</div>')+
-        '</div>'+
-        (badge ? '<span class="badge '+badgeClass+'">'+badge+'</span>' : '')+
-        '<span class="pathway-chevron" id="chev-'+id+'">▶</span>'+
-      '</div>'+
-      '<div class="pathway-group-body" id="body-'+id+'">'+
-        courseRows+
-        (extraBody||'')+
-      '</div>'+
-    '</div>';
-  }
-
-  // Completed group — with transcript upload
   if(done.length){
-    var transcriptHtml =
-      '<div style="margin-top:8px;padding-top:8px;border-top:1px solid var(--border);">'+
-        '<div style="font-size:11px;font-weight:500;color:var(--text2);margin-bottom:4px;">🎓 Official Transcript</div>'+
-        '<div style="font-size:11px;color:var(--text3);margin-bottom:6px;">Ella graduates from Pierce College on <strong>June 18, 2026</strong> and from Bethel High School on <strong>June 8, 2026</strong>. Upload her official transcript(s) here when ready.</div>'+
-        '<div style="font-size:11px;color:var(--teal-mid);margin-bottom:6px;">📄 Full transcript viewer available in the Transcript page.</div>'+
-        '<div class="transcript-upload-area" id="transcript-drop" onclick="document.getElementById(\'transcript-input\').click()" ondragover="event.preventDefault()" ondrop="handleTranscriptDrop(event)">'+
-          '<input type="file" id="transcript-input" accept=".pdf,.jpg,.jpeg,.png" style="display:none;" onchange="handleTranscriptFile(this.files[0])">'+
-          '<div id="transcript-placeholder">'+
-            '<div style="font-size:20px;margin-bottom:4px;">📄</div>'+
-            '<div style="font-size:12px;font-weight:500;color:var(--text2);">Click or drag to upload transcript</div>'+
-            '<div style="font-size:11px;color:var(--text3);margin-top:2px;">PDF, JPG, or PNG · Available June 18, 2026</div>'+
-          '</div>'+
-          '<div id="transcript-uploaded" style="display:none;">'+
-            '<div style="font-size:20px;margin-bottom:4px;">✅</div>'+
-            '<div style="font-size:12px;font-weight:500;color:var(--teal-mid);" id="transcript-fname"></div>'+
-            '<div style="font-size:11px;color:var(--teal-mid);margin-top:2px;">Transcript uploaded!</div>'+
-            '<button class="btn-red" style="margin-top:6px;font-size:11px;padding:3px 8px;" onclick="removeTranscript(event)">Remove</button>'+
-          '</div>'+
-        '</div>'+
-      '</div>';
-    html += group('done','✅','var(--green-light)','Completed ('+done.length+')','Done','badge badge-green',done,'',transcriptHtml);
+    html += '<div class="pathway-step"><div class="step-icon" style="background:var(--green-light);">✅</div><div style="flex:1;"><strong style="font-size:13px;font-weight:500;">Completed ('+done.length+')</strong><div style="font-size:11px;color:var(--text3);">'+done.map(function(c){return c.name;}).join(' · ')+'</div></div><span class="badge badge-green">Done</span></div>';
   }
-
-  // Active
-  if(active.length)  html += group('active','📗','var(--teal-light)','Currently Active','Active','badge badge-teal',active,'','');
-  // Self-study
-  if(selfst.length)  html += group('self','📘','var(--blue-light)','Self-Study','Self-study','badge badge-blue',selfst,'','');
-  // Waitlisted
-  if(waiting.length) html += group('wait','⏳','var(--amber-light)','Waitlisted','Waitlisted','badge badge-amber',waiting,'','');
-  // Planned
-  if(planned.length) html += group('plan','📓','var(--surface2)','Planned','Planned','',planned,'','');
-
-  // Saint Martin's — always shown, no expand needed
-  html += '<div class="pathway-group">'+
-    '<div class="pathway-group-header" onclick="togglePathwayGroup(\'smu\')">'+
-      '<div class="step-icon" style="background:var(--purple-light);">🏛️</div>'+
-      '<div style="flex:1;"><strong style="font-size:13px;font-weight:500;">Saint Martin\'s University — BSN</strong>'+
-      '<div style="font-size:11px;color:var(--text3);">Lacey, WA · Direct admit confirmed</div></div>'+
-      '<span class="badge badge-purple">Admitted</span>'+
-      '<span class="pathway-chevron" id="chev-smu">▶</span>'+
-    '</div>'+
-    '<div class="pathway-group-body" id="body-smu">'+
-      '<div class="pathway-course-row">🎓 BSN Program — Fall 2026 entry</div>'+
-      '<div class="pathway-course-row">📍 Lacey, Washington</div>'+
-      '<div class="pathway-course-row">⭐ Direct admit — pre-nursing requirements satisfied</div>'+
-    '</div>'+
-  '</div>';
-
+  active.forEach(function(c){html += '<div class="pathway-step"><div class="step-icon" style="background:var(--teal-light);">📗</div><div style="flex:1;"><strong style="font-size:13px;font-weight:500;">'+c.name+'</strong><div style="font-size:11px;color:var(--text3);">Active — currently enrolled</div></div><span class="badge badge-teal">Active</span></div>';});
+  self.forEach(function(c){html += '<div class="pathway-step"><div class="step-icon" style="background:var(--blue-light);">📘</div><div style="flex:1;"><strong style="font-size:13px;font-weight:500;">'+c.name+'</strong><div style="font-size:11px;color:var(--text3);">In progress — self-study</div></div><span class="badge badge-blue">Self-study</span></div>';});
+  waiting.forEach(function(c){html += '<div class="pathway-step"><div class="step-icon" style="background:var(--amber-light);">⏳</div><div style="flex:1;"><strong style="font-size:13px;font-weight:500;">'+c.name+'</strong><div style="font-size:11px;color:var(--text3);">Waitlisted — studying ahead</div></div><span class="badge badge-amber">Waitlisted</span></div>';});
+  planned.forEach(function(c){html += '<div class="pathway-step"><div class="step-icon" style="background:var(--surface2);">📓</div><div style="flex:1;"><strong style="font-size:13px;font-weight:500;">'+c.name+'</strong><div style="font-size:11px;color:var(--text3);">Planned — need to take</div></div></div>';});
+  html += '<div class="pathway-step"><div class="step-icon" style="background:var(--purple-light);">🏛️</div><div style="flex:1;"><strong style="font-size:13px;font-weight:500;">Saint Martin\'s University — BSN</strong><div style="font-size:11px;color:var(--text3);">Lacey, WA · Direct admit confirmed</div></div><span class="badge badge-purple">Admitted</span></div>';
   el.innerHTML = html;
-
-  // Restore transcript state if saved
-  if(state.transcriptName){
-    var area = document.getElementById('transcript-drop');
-    if(area) area.classList.add('has-file');
-    var ph = document.getElementById('transcript-placeholder');
-    var up = document.getElementById('transcript-uploaded');
-    var fn = document.getElementById('transcript-fname');
-    if(ph) ph.style.display='none';
-    if(up) up.style.display='block';
-    if(fn) fn.textContent = state.transcriptName;
-  }
-}
-
-function togglePathwayGroup(id){
-  var body  = document.getElementById('body-'+id);
-  var chev  = document.getElementById('chev-'+id);
-  if(!body) return;
-  var isOpen = body.classList.contains('open');
-  body.classList.toggle('open', !isOpen);
-  if(chev) chev.classList.toggle('open', !isOpen);
-}
-
-function handleTranscriptFile(file){
-  if(!file) return;
-  state.transcriptName = file.name;
-  save();
-  var area = document.getElementById('transcript-drop');
-  if(area) area.classList.add('has-file');
-  var ph = document.getElementById('transcript-placeholder');
-  var up = document.getElementById('transcript-uploaded');
-  var fn = document.getElementById('transcript-fname');
-  if(ph) ph.style.display='none';
-  if(up) up.style.display='block';
-  if(fn) fn.textContent = file.name;
-}
-
-function handleTranscriptDrop(e){
-  e.preventDefault();
-  var file = e.dataTransfer.files[0];
-  if(file) handleTranscriptFile(file);
-}
-
-function removeTranscript(e){
-  e.stopPropagation();
-  state.transcriptName = '';
-  save();
-  var area = document.getElementById('transcript-drop');
-  if(area) area.classList.remove('has-file');
-  var ph = document.getElementById('transcript-placeholder');
-  var up = document.getElementById('transcript-uploaded');
-  if(ph) ph.style.display='block';
-  if(up) up.style.display='none';
-  document.getElementById('transcript-input').value='';
 }
 
 // ═══════════════════════════════════════════════════════════════
@@ -2119,7 +1855,10 @@ function renderQuiz(){
     html += '<div class="q-text">'+q.q+'</div>';
     if(q.type==='written'){
       html += '<textarea class="written-area" id="wa-'+i+'" placeholder="Write your full answer here..."></textarea>';
-      html += '<div style="display:flex;gap:8px;margin-top:8px;"><button class="btn-primary" onclick="submitWrittenQ('+i+')">Submit &amp; reveal model answer</button></div>';
+      html += '<div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap;">';
+      html += '<button id="wsub-'+i+'" onclick="submitWrittenQ('+i+')" style="background:#1D9E75;color:white;border:none;border-radius:6px;padding:8px 16px;font-size:13px;cursor:pointer;">Submit my answer</button>';
+      html += '<button id="wrev-'+i+'" onclick="revealWrittenQ('+i+')" style="display:none;color:#0F6E56;border:1px solid #1D9E75;background:transparent;border-radius:6px;padding:8px 16px;font-size:13px;cursor:pointer;">Reveal model answer &#x2192;</button>';
+      html += '</div>';
       html += '<div class="model-answer" id="ma-'+i+'"><strong>Model answer:</strong> '+q.model+'</div>';
       html += '<div class="self-rate" id="sr-'+i+'" style="display:none;"><span style="font-size:12px;color:var(--text2);">How well did you know this?</span>';
       for(var r=1;r<=5;r++) html += '<button class="rate-btn" id="rb-'+i+'-'+r+'" onclick="selfRateQ('+i+','+r+')">'+r+'</button>';
@@ -2144,10 +1883,16 @@ function renderQuiz(){
 
 var writtenRatings=[];
 function submitWrittenQ(i){
-  var ans=document.getElementById('wa-'+i).value.trim();
-  if(!ans){alert('Please write your answer first.');return;}
+  var ta=document.getElementById('wa-'+i);
+  if(!ta||!ta.value.trim()){alert('Please write your full answer first.');return;}
+  ta.disabled=true;
+  var sub=document.getElementById('wsub-'+i);if(sub)sub.style.display='none';
+  var rev=document.getElementById('wrev-'+i);if(rev)rev.style.display='inline-block';
+}
+function revealWrittenQ(i){
   document.getElementById('ma-'+i).style.display='block';
   document.getElementById('sr-'+i).style.display='flex';
+  var rev=document.getElementById('wrev-'+i);if(rev)rev.style.display='none';
   var nb=document.getElementById('next-'+i);if(nb)nb.style.display='inline-block';
   answeredCount++;
   if(answeredCount===currentQuizQs.length)setTimeout(finishQuiz,600);
@@ -2217,9 +1962,18 @@ function selExam(m,el){
   el.classList.add('sel');
 }
 
+function getExamCount(){
+  var sel=document.getElementById('exam-count');
+  return sel?parseInt(sel.value):25;
+}
 function startExam(){
   if(currentExam==='ap2'){
-    currentQuizQs=(QUESTIONS['ap2']||[]).slice().sort(function(){return Math.random()-.5;});
+    var _cnt=getExamCount();
+    var _pool=(QUESTIONS['ap2']||[]).slice();
+    var _shuffled=_pool.sort(function(){return Math.random()-.5;});
+    currentQuizQs=[];
+    while(currentQuizQs.length<_cnt){currentQuizQs=currentQuizQs.concat(_shuffled.slice().sort(function(){return Math.random()-.5;}));}
+    currentQuizQs=currentQuizQs.slice(0,_cnt);
     answeredCount=0;correctCount=0;
     var area=document.getElementById('exam-area');
     var html='<div style="margin-bottom:1rem;padding:12px;background:var(--amber-light);border-radius:var(--radius-sm);font-size:13px;color:#854F0B;">A&P II Unit 1 Exam — Write your full answers before revealing model answers. Treat this like a real test.</div>';
@@ -2229,8 +1983,11 @@ function startExam(){
       if(q.sc) html+='<div class="q-scenario">'+q.sc+'</div>';
       html+='<div class="q-text">'+q.q+'</div>';
       if(q.type==='written'){
-        html+='<textarea class="written-area" id="ewa-'+i+'" placeholder="Write your full answer here..."></textarea>';
-        html+='<div style="margin-top:8px;"><button class="btn-primary" onclick="revealExamWritten('+i+')">Submit &amp; reveal model answer</button></div>';
+        html+='<textarea class="written-area" id="ewa-'+i+'" placeholder="Write your full answer here — commit before revealing!"></textarea>';
+        html+='<div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap;">';
+        html+='<button id="esub-'+i+'" onclick="submitExamWritten('+i+')" style="background:var(--teal);color:white;border:none;border-radius:var(--radius-sm);padding:8px 16px;font-size:13px;cursor:pointer;font-family:\'DM Sans\',sans-serif;">Submit my answer</button>';
+        html+='<button id="erev-'+i+'" onclick="revealExamWritten('+i+')" style="display:none;background:transparent;color:var(--teal-mid);border:1px solid var(--teal);border-radius:var(--radius-sm);padding:8px 16px;font-size:13px;cursor:pointer;font-family:\'DM Sans\',sans-serif;">Reveal model answer →</button>';
+        html+='</div>';
         html+='<div class="model-answer" id="ema-'+i+'"><strong>Model answer:</strong> '+q.model+'</div>';
         html+='<div class="self-rate" id="esr-'+i+'" style="display:none;"><span style="font-size:12px;color:var(--text2);">How well did you know this?</span>';
         for(var r=1;r<=5;r++) html+='<button class="rate-btn" id="erb-'+i+'-'+r+'" onclick="examSelfRate('+i+','+r+')">'+r+'</button>';
@@ -2320,8 +2077,8 @@ function showAnswerKey(){
 // NOTES
 // ═══════════════════════════════════════════════════════════════
 function saveNote(){
-  var course=document.getElementById('note-course').value.trim()||'General';
-  var topic=document.getElementById('note-topic').value.trim()||'Untitled lecture';
+  var course=document.getElementById('note-course').value;
+  var topic=document.getElementById('note-topic').value.trim()||'General';
   var body=document.getElementById('note-body').value.trim();
   if(!body){alert('Please write some notes first.');return;}
   state.notes.unshift({course:course,topic:topic,body:body,date:new Date().toLocaleDateString()});
@@ -2340,42 +2097,9 @@ function clearNoteForm(){
 function renderNotes(){
   var el=document.getElementById('saved-notes-list');
   if(!el) return;
-
-  // Update course filter dropdown with unique courses from saved notes
-  var filterEl=document.getElementById('note-filter-course');
-  if(filterEl){
-    var currentFilter=filterEl.value;
-    var courses=[...new Set(state.notes.map(function(n){return n.course;}))].sort();
-    filterEl.innerHTML='<option value="">All courses</option>'+courses.map(function(c){
-      return '<option value="'+c+'"'+(c===currentFilter?' selected':'')+'>'+c+'</option>';
-    }).join('');
-  }
-
   if(!state.notes.length){el.innerHTML='<p style="font-size:13px;color:var(--text3);">No notes saved yet.</p>';return;}
-
-  // Apply search and course filter
-  var search=(document.getElementById('note-search')||{}).value||'';
-  var filterCourse=filterEl?filterEl.value:'';
-  var filtered=state.notes.filter(function(n,i){
-    n._origIdx=i;
-    var matchCourse=!filterCourse||n.course===filterCourse;
-    var matchSearch=!search||(n.topic+n.course+n.body).toLowerCase().includes(search.toLowerCase());
-    return matchCourse&&matchSearch;
-  });
-
-  if(!filtered.length){el.innerHTML='<p style="font-size:13px;color:var(--text3);">No notes match your search.</p>';return;}
-
-  el.innerHTML=filtered.map(function(n){
-    var i=state.notes.indexOf(n);
-    return '<div class="note-item">'+
-      '<div class="note-icon" style="background:var(--teal-light);">📝</div>'+
-      '<div style="flex:1;">'+
-        '<strong style="font-size:13px;font-weight:500;">'+n.topic+'</strong>'+
-        '<div style="font-size:11px;color:var(--text3);">'+n.course+' · '+n.date+'</div>'+
-        '<div style="font-size:12px;color:var(--text2);margin-top:3px;white-space:pre-wrap;">'+n.body.slice(0,120)+(n.body.length>120?'...':'')+'</div>'+
-      '</div>'+
-      '<button class="btn-red" style="padding:4px 8px;font-size:11px;align-self:flex-start;" onclick="deleteNote('+i+')">Delete</button>'+
-    '</div>';
+  el.innerHTML=state.notes.map(function(n,i){
+    return '<div class="note-item"><div class="note-icon" style="background:var(--teal-light);">📝</div><div style="flex:1;"><strong style="font-size:13px;font-weight:500;">'+n.topic+'</strong><div style="font-size:11px;color:var(--text3);">'+n.course+' · '+n.date+'</div><div style="font-size:12px;color:var(--text2);margin-top:3px;white-space:pre-wrap;">'+n.body.slice(0,120)+(n.body.length>120?'...':'')+'</div></div><button class="btn-red" style="padding:4px 8px;font-size:11px;align-self:flex-start;" onclick="deleteNote('+i+')">Delete</button></div>';
   }).join('');
 }
 
@@ -2541,241 +2265,6 @@ function showNN(tab, el){
 }
 
 // ═══════════════════════════════════════════════════════════════
-// TRANSCRIPT
-// ═══════════════════════════════════════════════════════════════
-var trFiles = [];
-
-function trDragOver(e){e.preventDefault();document.getElementById('tr-drop-zone').classList.add('dragging');}
-function trDragLeave(e){document.getElementById('tr-drop-zone').classList.remove('dragging');}
-function trDrop(e){
-  e.preventDefault();
-  document.getElementById('tr-drop-zone').classList.remove('dragging');
-  handleTranscriptUpload(e.dataTransfer.files);
-}
-
-function handleTranscriptUpload(files){
-  if(!files||!files.length) return;
-  trFiles = Array.from(files);
-  var names = trFiles.map(function(f){return f.name;}).join(', ');
-  document.getElementById('tr-upload-prompt').style.display='none';
-  document.getElementById('tr-upload-done').style.display='block';
-  document.getElementById('tr-file-names').textContent = names;
-  document.getElementById('tr-drop-zone').classList.add('has-file');
-  document.getElementById('tr-read-btn').style.display='inline-block';
-  document.getElementById('tr-clear-btn').style.display='inline-block';
-  // Show image previews
-  var prev = document.getElementById('tr-previews');
-  prev.innerHTML='';
-  trFiles.forEach(function(f){
-    if(f.type.startsWith('image/')){
-      var img = document.createElement('img');
-      img.className='transcript-preview';
-      img.style.maxHeight='120px';img.style.width='auto';
-      img.src=URL.createObjectURL(f);
-      prev.appendChild(img);
-    } else if(f.type==='application/pdf'){
-      prev.innerHTML+='<div style="padding:10px 14px;background:var(--surface2);border-radius:var(--radius-sm);font-size:12px;color:var(--text2);">📄 '+f.name+'</div>';
-    }
-  });
-  // Save file name to state
-  state.transcriptName = names;
-  save();
-  updateTranscriptNavBadge();
-}
-
-async function readTranscriptWithAI(){
-  if(!trFiles.length){alert('Please upload a transcript first.');return;}
-  var statusEl = document.getElementById('tr-ai-status');
-  var statusMsg = document.getElementById('tr-ai-status-msg');
-  var readBtn = document.getElementById('tr-read-btn');
-  statusEl.style.display='flex';
-  statusMsg.textContent='Reading your transcript...';
-  readBtn.disabled=true;
-
-  try {
-    // Convert files to base64 for Claude vision
-    var contentParts = [{type:'text',text:'This is a college transcript. Please extract ALL courses, grades, and credits. Return ONLY a JSON array with no extra text, like this: [{"course":"CHEM 100","credits":5,"grade":"A","term":"Fall 2024"},{"course":"A&P I","credits":5,"grade":"B+","term":"Spring 2024"}]. Include every course you can find. Use the exact grade as shown (A, A-, B+, B, etc).'}];
-
-    for(var i=0;i<trFiles.length;i++){
-      var file = trFiles[i];
-      statusMsg.textContent='Processing page '+(i+1)+' of '+trFiles.length+'...';
-      var b64 = await fileToBase64(file);
-      if(file.type==='application/pdf'){
-        contentParts.push({type:'document',source:{type:'base64',media_type:'application/pdf',data:b64}});
-      } else {
-        contentParts.push({type:'image',source:{type:'base64',media_type:file.type,data:b64}});
-      }
-    }
-
-    statusMsg.textContent='Claude is reading the transcript...';
-    var res = await fetch(AI_WORKER_URL, {
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({
-        model:'claude-sonnet-4-20250514',
-        max_tokens:2000,
-        messages:[{role:'user',content:contentParts}]
-      })
-    });
-    var data = await res.json();
-    if(data.content&&data.content[0]){
-      var text = data.content[0].text.trim();
-      // Strip any markdown fences
-      text = text.replace(/```json|```/g,'').trim();
-      var grades = JSON.parse(text);
-      state.transcriptGrades = grades;
-      save();
-      renderGradeTable();
-      updateGPA();
-      statusEl.style.display='none';
-      statusMsg.textContent='Done!';
-      readBtn.disabled=false;
-      alert('✅ Claude read '+grades.length+' courses from the transcript! Review the grades below and edit anything if needed.');
-    } else {
-      throw new Error(data.error?data.error.message:'No response from Claude');
-    }
-  } catch(err){
-    statusEl.style.display='none';
-    readBtn.disabled=false;
-    alert('Could not read transcript automatically. Error: '+err.message+'\n\nYou can add grades manually using the "+ Add course manually" button.');
-  }
-}
-
-function fileToBase64(file){
-  return new Promise(function(resolve,reject){
-    var r=new FileReader();
-    r.onload=function(){resolve(r.result.split(',')[1]);};
-    r.onerror=function(){reject(new Error('Could not read file'));};
-    r.readAsDataURL(file);
-  });
-}
-
-function clearTranscript(){
-  if(!confirm('Clear the uploaded transcript and all grades?')) return;
-  trFiles=[];
-  state.transcriptName='';
-  state.transcriptGrades=[];
-  save();
-  document.getElementById('tr-upload-prompt').style.display='block';
-  document.getElementById('tr-upload-done').style.display='none';
-  document.getElementById('tr-drop-zone').classList.remove('has-file');
-  document.getElementById('tr-previews').innerHTML='';
-  document.getElementById('tr-read-btn').style.display='none';
-  document.getElementById('tr-clear-btn').style.display='none';
-  document.getElementById('tr-file-input').value='';
-  document.getElementById('tr-ai-status').style.display='none';
-  renderGradeTable();
-  updateGPA();
-  updateTranscriptNavBadge();
-}
-
-function gradeToPoints(g){
-  var map={'A+':4.0,'A':4.0,'A-':3.7,'B+':3.3,'B':3.0,'B-':2.7,'C+':2.3,'C':2.0,'C-':1.7,'D+':1.3,'D':1.0,'D-':0.7,'F':0.0,'P':null,'NP':null,'W':null,'I':null};
-  return map.hasOwnProperty(g)?map[g]:null;
-}
-
-function gradeClass(g){
-  if(!g) return '';
-  var u=g.toUpperCase();
-  if(u.startsWith('A')) return 'grade-a';
-  if(u.startsWith('B')) return 'grade-b';
-  if(u.startsWith('C')) return 'grade-c';
-  return 'grade-d';
-}
-
-function updateGPA(){
-  var grades = state.transcriptGrades||[];
-  var totalPts=0,totalCr=0,count=0;
-  grades.forEach(function(g){
-    var pts=gradeToPoints(g.grade);
-    var cr=parseFloat(g.credits)||0;
-    if(pts!==null&&cr>0){totalPts+=pts*cr;totalCr+=cr;count++;}
-  });
-  var gpaEl=document.getElementById('gpa-display');
-  var subEl=document.getElementById('gpa-sub');
-  var crEl=document.getElementById('gpa-total-credits');
-  var coEl=document.getElementById('gpa-courses-count');
-  if(totalCr>0){
-    var gpa=(totalPts/totalCr).toFixed(2);
-    if(gpaEl) gpaEl.textContent=gpa;
-    if(subEl) subEl.textContent=gpa>=3.5?'Dean\'s List range 🌟':gpa>=3.0?'Good standing':'Keep it up!';
-  } else {
-    if(gpaEl) gpaEl.textContent='—';
-    if(subEl) subEl.textContent='No grades entered yet';
-  }
-  if(crEl) crEl.textContent=grades.reduce(function(s,g){return s+(parseFloat(g.credits)||0);},0);
-  if(coEl) coEl.textContent=grades.length;
-}
-
-function renderGradeTable(){
-  var wrap=document.getElementById('grade-table-wrap');
-  if(!wrap) return;
-  var grades=state.transcriptGrades||[];
-  if(!grades.length){
-    wrap.innerHTML='<p style="font-size:13px;color:var(--text3);">No grades yet — upload your transcript or add courses manually.</p>';
-    return;
-  }
-  var html='<table class="grade-table"><thead><tr><th>Course</th><th>Term</th><th>Credits</th><th>Grade</th><th>Points</th><th></th></tr></thead><tbody>';
-  grades.forEach(function(g,i){
-    var pts=gradeToPoints(g.grade);
-    var cr=parseFloat(g.credits)||0;
-    html+='<tr>'+
-      '<td><input type="text" value="'+escHtml(g.course||'')+'" onchange="updateGrade('+i+',\'course\',this.value)" style="border:none;background:transparent;width:100%;font-family:\'DM Sans\',sans-serif;font-size:13px;color:var(--text);outline:none;"></td>'+
-      '<td><input type="text" value="'+escHtml(g.term||'')+'" onchange="updateGrade('+i+',\'term\',this.value)" style="border:none;background:transparent;width:90px;font-family:\'DM Sans\',sans-serif;font-size:13px;color:var(--text2);outline:none;"></td>'+
-      '<td><input type="number" value="'+(g.credits||'')+'" onchange="updateGrade('+i+',\'credits\',this.value)" style="border:none;background:transparent;width:50px;font-family:\'DM Sans\',sans-serif;font-size:13px;color:var(--text);outline:none;" min="0" max="12"></td>'+
-      '<td><input type="text" value="'+escHtml(g.grade||'')+'" onchange="updateGrade('+i+',\'grade\',this.value)" style="border:none;background:transparent;width:45px;font-family:\'DM Sans\',sans-serif;font-size:13px;font-weight:600;outline:none;" class="'+gradeClass(g.grade)+'"></td>'+
-      '<td style="color:var(--text2);font-size:12px;">'+(pts!==null&&cr>0?(pts*cr).toFixed(1):'—')+'</td>'+
-      '<td><button class="btn-red" style="padding:2px 7px;font-size:11px;" onclick="removeGrade('+i+')">✕</button></td>'+
-    '</tr>';
-  });
-  html+='</tbody></table>';
-  wrap.innerHTML=html;
-}
-
-function escHtml(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
-
-function updateGrade(i,field,val){
-  if(!state.transcriptGrades[i]) return;
-  state.transcriptGrades[i][field]=val;
-  save(); updateGPA();
-}
-
-function removeGrade(i){
-  state.transcriptGrades.splice(i,1);
-  save(); renderGradeTable(); updateGPA();
-}
-
-function addGradeRow(){
-  if(!state.transcriptGrades) state.transcriptGrades=[];
-  state.transcriptGrades.push({course:'',term:'',credits:'',grade:''});
-  save(); renderGradeTable(); updateGPA();
-  // Scroll to bottom of table
-  var wrap=document.getElementById('grade-table-wrap');
-  if(wrap) wrap.scrollIntoView({behavior:'smooth',block:'end'});
-}
-
-function updateTranscriptNavBadge(){
-  var badge=document.getElementById('transcript-nav-badge');
-  if(badge) badge.style.display=state.transcriptName?'inline':'none';
-}
-
-function updateGradCountdown(){
-  var hsGrad=new Date('2026-06-08');
-  var collegeGrad=new Date('2026-06-18');
-  var now=new Date();
-  var el=document.getElementById('grad-countdown');
-  if(!el) return;
-  if(now>=collegeGrad){el.textContent='Both graduated! 🎉';return;}
-  if(now>=hsGrad){
-    var diff=collegeGrad-now;
-    var days=Math.floor(diff/(1000*60*60*24));
-    el.textContent='Pierce in '+days+'d';return;
-  }
-  var diff=hsGrad-now;
-  var days=Math.floor(diff/(1000*60*60*24));
-  el.textContent='BHS in '+days+'d';
-}
-
 // INIT
 // ═══════════════════════════════════════════════════════════════
 renderCourseList();
@@ -2783,13 +2272,6 @@ renderPathway();
 loadDeck();
 updateStats();
 updateTimerDisplay();
-// Transcript init
-if(!state.transcriptGrades) state.transcriptGrades=[];
-renderGradeTable();
-updateGPA();
-updateTranscriptNavBadge();
-updateGradCountdown();
-setInterval(updateGradCountdown, 60000);
 </script>
 </body>
 </html>
